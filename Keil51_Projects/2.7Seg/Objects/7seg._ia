@@ -1,0 +1,1 @@
+"User\7seg.ASM" SET (SMALL) DEBUG PRINT(.\Listings\7seg.lst) OBJECT(.\Objects\7seg.obj) EP
