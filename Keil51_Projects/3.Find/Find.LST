@@ -1,0 +1,44 @@
+A51 MACRO ASSEMBLER  FIND                                                                 03/18/2018 09:29:14 PAGE     1
+
+
+MACRO ASSEMBLER A51 V7.07
+OBJECT MODULE PLACED IN Find.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Find.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG   0000H
+0000 020050            2                     LJMP  MAIN      
+0050                   3                     ORG  0050H
+0050 7417              4     MAIN:   MOV   A,#17H
+0052 7818              5             MOV   R0,#18H
+0054 FF                6                     MOV   R7,A
+0055 0D                7                     INC   R5
+0056 75D010            8                     MOV   PSW,#10H  ;选中 第二组
+0059 E8                9                     MOV   A, R0
+005A 7412             10                     MOV   A,#12H
+005C 901210           11                     MOV   DPTR, #1210H
+005F F0               12                     MOVX  @DPTR,A
+0060 900050           13                 MOV   DPTR, #0050H
+0063 7400             14                     MOV   A,#00H
+0065 93               15                     MOVC  A,@A+DPTR
+0066 80E8             16                     SJMP   MAIN
+                      17                     END
+                                             
+                                     
+A51 MACRO ASSEMBLER  FIND                                                                 03/18/2018 09:29:14 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+MAIN . . . . . . .  C ADDR   0050H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
