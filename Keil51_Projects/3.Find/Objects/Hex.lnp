@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\Find.obj" 
+TO ".\Objects\Hex" 
+PRINT(".\Listings\Hex.m51") RAMSIZE(256) 

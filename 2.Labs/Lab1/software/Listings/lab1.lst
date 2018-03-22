@@ -1,0 +1,58 @@
+A51 MACRO ASSEMBLER  LAB1                                                                 03/20/2018 15:10:55 PAGE     1
+
+
+MACRO ASSEMBLER A51 V7.07
+OBJECT MODULE PLACED IN .\Objects\lab1.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE User\lab1.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab1.lst) OBJECT(.\Objects
+                      \lab1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       7seg.ASM        
+                       2     ; Author                :       Twsa Liu
+                       3     ; Date                  :       2017-03-20
+                       4     ; Description           :       Lab1  I/O Control Test
+                       5     
+                       6     ;MAIN
+0000                   7                     ORG             0000H
+0000 75A0FF            8     INIT:   MOV     P2,#0FFH
+0003 7590FF            9             MOV     P1,#0FFH
+0006 30B0FD           10     SYSTEM_WAIT:    JNB     P3.0,SYSTEM_WAIT
+                      11     
+0009 85A090           12     LOOP:           MOV     P1,P2 
+000C 30B0F7           13                     JNB     P3.0,SYSTEM_WAIT                                        
+000F 0109             14                     AJMP    LOOP            
+                      15     
+                      16     ;Delay Function 1s delay
+0011 7F0A             17     DELAY:  MOV     R7,#10
+0013 7EC8             18     DEL1:   MOV             R6,#200
+0015 7DF8             19     DEL2:   MOV             R5,#248
+0017 DDFE             20                     DJNZ    R5,$
+0019 DEFA             21                     DJNZ    R6,DEL2
+001B DFF6             22                     DJNZ    R7,DEL1
+001D 22               23                     RET
+                      24                     END
+                                             
+A51 MACRO ASSEMBLER  LAB1                                                                 03/20/2018 15:10:55 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEL1 . . . . . . .  C ADDR   0013H   A   
+DEL2 . . . . . . .  C ADDR   0015H   A   
+DELAY. . . . . . .  C ADDR   0011H   A   
+INIT . . . . . . .  C ADDR   0000H   A   
+LOOP . . . . . . .  C ADDR   0009H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+SYSTEM_WAIT. . . .  C ADDR   0006H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
