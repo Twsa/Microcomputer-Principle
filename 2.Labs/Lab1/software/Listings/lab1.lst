@@ -1,39 +1,172 @@
-A51 MACRO ASSEMBLER  LAB1                                                                 03/20/2018 15:10:55 PAGE     1
+A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     1
 
 
-MACRO ASSEMBLER A51 V7.07
+MACRO ASSEMBLER A51 V8.2.5.0
 OBJECT MODULE PLACED IN .\Objects\lab1.obj
-ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE User\lab1.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab1.lst) OBJECT(.\Objects
-                      \lab1.obj) EP
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\lab1.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab1.lst) OBJECT(.\Obje
+                      cts\lab1.obj) EP
 
 LOC  OBJ            LINE     SOURCE
 
-                       1     ; FileName              :       7seg.ASM        
-                       2     ; Author                :       Twsa Liu
-                       3     ; Date                  :       2017-03-20
-                       4     ; Description           :       Lab1  I/O Control Test
-                       5     
-                       6     ;MAIN
-0000                   7                     ORG             0000H
-0000 75A0FF            8     INIT:   MOV     P2,#0FFH
-0003 7590FF            9             MOV     P1,#0FFH
-0006 30B0FD           10     SYSTEM_WAIT:    JNB     P3.0,SYSTEM_WAIT
-                      11     
-0009 85A090           12     LOOP:           MOV     P1,P2 
-000C 30B0F7           13                     JNB     P3.0,SYSTEM_WAIT                                        
-000F 0109             14                     AJMP    LOOP            
-                      15     
-                      16     ;Delay Function 1s delay
-0011 7F0A             17     DELAY:  MOV     R7,#10
-0013 7EC8             18     DEL1:   MOV             R6,#200
-0015 7DF8             19     DEL2:   MOV             R5,#248
-0017 DDFE             20                     DJNZ    R5,$
-0019 DEFA             21                     DJNZ    R6,DEL2
-001B DFF6             22                     DJNZ    R7,DEL1
-001D 22               23                     RET
-                      24                     END
-                                             
-A51 MACRO ASSEMBLER  LAB1                                                                 03/20/2018 15:10:55 PAGE     2
+                       1     ; FileName              :               lab1.ASM        
+
+                       2     ; Author                :               Twsa Liu
+
+                       3     ; Date                  :               2017-03-23
+
+                       4     ; Description   :               This is a lab ofm AT89C52RC.
+
+                       5     ;                                               The lab achieve function that include binke
+                             ying
+
+                       6     ;                                               ,delay,light leds and switch using
+
+                       7      
+
+                       8     ;Main function
+
+0000                   9                     ORG             0000H
+
+0000 75A0FF           10     INIT:   MOV     P2,#0FFH
+
+0003 7590FF           11                     MOV             P1,#0FFH                ;init the I/O,make P1,P2 low
+
+0006 7400             12                     MOV             A,#00H                  ;init accumulator A
+
+0008 75F000           13                     MOV             B,#00H  
+
+000B 900076           14                     MOV             DPTR,#LED_TB    ;int led table ptr              
+
+000E                  15     LOOP:   
+
+                      16                     ;LCALL  TEST1
+
+                      17                     ;LCALL  TEST2
+
+                      18                     ;LCALL  TEST3
+
+000E 120043           19                     LCALL   TEST4           
+
+0011 010E             20                     AJMP    LOOP            
+
+                      21     
+
+                      22     ;Light leds using switchs(P2)
+
+0013 85A090           23     TEST1:  MOV     P1,P2           ;using switchligs to ht D1-D7
+
+0016 22               24                     RET
+
+                      25     
+
+                      26     ;Set a switch(P3.0) to control system 
+
+0017 20B0FD           27     WAIT:   JB              P3.0,WAIT       ;if(P3.0=1) WAIT ,equal to bouncing the switch
+
+001A 20B0FA           28     TEST2:  JB              P3.0,WAIT       
+
+001D 85A090           29                     MOV     P1,P2
+
+0020 20B0F4           30                     JB              P3.0,WAIT
+
+0023 22               31                     RET     
+
+                      32     
+
+                      33     ;Binkly and contain operation of pasuing
+
+0024 20B0FD           34     WAIT1:  JB              P3.0,WAIT1
+
+0027 20B0FA           35     TEST3:  JB              P3.0,WAIT1
+
+002A 93               36     AGAIN:  MOVC    A,@A+DPTR
+
+002B F590             37     PASUE:  MOV     P1,A                    ;PASUE operator
+
+002D 20B0FB           38                     JB              P3.0,PASUE
+
+0030 120069           39                     LCALL   DELAY
+
+0033 E5F0             40                     MOV             A,B
+
+0035 05F0             41                     INC             B
+
+0037 B40704           42                     CJNE    A,#0X07,NEXT
+
+003A 75F000           43                     MOV             B,#0X00         ;rest accumator A to zero
+
+003D 22               44                     RET
+
+003E 80EA             45     NEXT:   SJMP    AGAIN
+
+                      46     
+
+                      47     ;Binkly and contain operation of stopping
+
+0040 20B0FD           48     WAIT2:  JB              P3.0,WAIT2
+
+0043 20B0FA           49     TEST4:  JB              P3.0,WAIT2
+
+0046 93               50     AGAIN1: MOVC    A,@A+DPTR
+
+0047 F590             51                     MOV     P1,A
+
+0049 20B010           52                     JB              P3.0,STOP
+
+004C 120069           53                     LCALL   DELAY
+
+004F E5F0             54                     MOV             A,B
+
+0051 05F0             55                     INC             B
+
+0053 B40704           56                     CJNE    A,#0X07,NEXT1
+
+A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     2
+
+0056 75F000           57                     MOV             B,#0X00         ;rest accumator A to zero
+
+0059 22               58                     RET
+
+005A 80EA             59     NEXT1:  SJMP    AGAIN1
+
+005C 7400             60     STOP:   MOV             A,#00H
+
+005E 75F000           61                     MOV             B,#00H
+
+0061 7590FF           62                     MOV             P1,#0XFF
+
+0064 20B0F5           63                     JB              P3.0,STOP
+
+0067 80DA             64                     SJMP    TEST4
+
+                      65                     
+
+                      66     ;Delay function
+
+0069 7F03             67     DELAY:  MOV     R7,#3
+
+006B 7EC8             68     DEL1:   MOV             R6,#200
+
+006D 7DF8             69     DEL2:   MOV             R5,#248
+
+006F DDFE             70                     DJNZ    R5,$
+
+0071 DEFA             71                     DJNZ    R6,DEL2
+
+0073 DFF6             72                     DJNZ    R7,DEL1
+
+0075 22               73                     RET
+
+                      74                     
+
+0076 FEFDFBF7         75     LED_TB: DB              0XFE,0XFD,0XFB,0XF7,0XEF,0XDF,0XBF,0X7F
+
+007A EFDFBF7F                
+                      76                     END
+
+                                     
+
+A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -41,15 +174,29 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-DEL1 . . . . . . .  C ADDR   0013H   A   
-DEL2 . . . . . . .  C ADDR   0015H   A   
-DELAY. . . . . . .  C ADDR   0011H   A   
+AGAIN. . . . . . .  C ADDR   002AH   A   
+AGAIN1 . . . . . .  C ADDR   0046H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+DEL1 . . . . . . .  C ADDR   006BH   A   
+DEL2 . . . . . . .  C ADDR   006DH   A   
+DELAY. . . . . . .  C ADDR   0069H   A   
 INIT . . . . . . .  C ADDR   0000H   A   
-LOOP . . . . . . .  C ADDR   0009H   A   
+LED_TB . . . . . .  C ADDR   0076H   A   
+LOOP . . . . . . .  C ADDR   000EH   A   
+NEXT . . . . . . .  C ADDR   003EH   A   
+NEXT1. . . . . . .  C ADDR   005AH   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
 P2 . . . . . . . .  D ADDR   00A0H   A   
 P3 . . . . . . . .  D ADDR   00B0H   A   
-SYSTEM_WAIT. . . .  C ADDR   0006H   A   
+PASUE. . . . . . .  C ADDR   002BH   A   
+STOP . . . . . . .  C ADDR   005CH   A   
+TEST1. . . . . . .  C ADDR   0013H   A   
+TEST2. . . . . . .  C ADDR   001AH   A   
+TEST3. . . . . . .  C ADDR   0027H   A   
+TEST4. . . . . . .  C ADDR   0043H   A   
+WAIT . . . . . . .  C ADDR   0017H   A   
+WAIT1. . . . . . .  C ADDR   0024H   A   
+WAIT2. . . . . . .  C ADDR   0040H   A   
 
 
 REGISTER BANK(S) USED: 0 
