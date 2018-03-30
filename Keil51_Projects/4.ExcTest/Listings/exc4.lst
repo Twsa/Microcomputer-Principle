@@ -1,0 +1,129 @@
+A51 MACRO ASSEMBLER  EXC4                                                                 03/30/2018 21:06:48 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\exc4.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\exc4.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\exc4.lst
+                      ) OBJECT(.\Objects\exc4.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       exc4.ASM        
+
+                       2     ; Author                :       Twsa Liu
+
+                       3     ; Date                  :       2018-03-30
+
+                       4     ; Description   :       This is the forth exercise,
+
+                       5     ;                                       target are 4-1,4-11 
+
+                       6     ;                                       at page 113,114 in textbook    
+
+                       7     
+
+                       8     ;Init
+
+0000                   9                     ORG             0000H
+
+0000                  10     MAIN:   
+
+0000 120005           11             LCALL   TG1
+
+0003 80FE             12             SJMP    $
+
+                      13     ;target 4-1
+
+                      14     ;要求：编写示菘榇统绦颍赗AM的50H地址开始的100字节送到
+
+                      15     ;               片外RAM的3000H开始的单元
+
+0005                  16     TG1:    
+
+0005 1119             17     INIT1:  ACALL   TEST1
+
+0007 903000           18                     MOV     DPTR,#3000H
+
+000A 7850             19                     MOV             R0,#50H
+
+000C 7F00             20                     MOV             R7,#00H  
+
+000E E6               21     NEXT1:  MOV             A,@R0
+
+000F F0               22                     MOVX    @DPTR,A
+
+0010 A3               23                     INC             DPTR
+
+0011 08               24                     INC             R0
+
+0012 0F               25                     INC             R7
+
+0013 BF64F8           26                     CJNE    R7,#100D,NEXT1  ;Dec 20
+
+0016 80FE             27                     SJMP    $
+
+0018 22               28                     RET
+
+0019 7850             29     TEST1:  MOV             R0,#50H
+
+001B E4               30                     CLR             A
+
+001C F6               31     TE1LP:  MOV             @R0,A
+
+001D 04               32                     INC             A
+
+001E 08               33                     INC             R0
+
+001F B8B4FA           34                     CJNE    R0,#0B4H,TE1LP  ;50H+64H
+
+0022 22               35                     RET
+
+                      36     
+
+                      37     ;target 4-10
+
+                      38     ;要求：试设计一个子程序，其功能是应用查表指令“MOVC A,@A+PC”
+
+                      39     ;          求累加器（A）的平方值，结果送入A，入口时（A）<15
+
+0023 7401             40     TG2:    MOV             A,#0X01
+
+0025 240A             41                     ADD             A,#0AH
+
+0027 83               42                     MOVC    A,@A+PC
+
+0028 22               43                     RET
+
+0029 00010409         44                     DB      00H,01H,04H,09H,10H,19H,24H,31H,                        40H,51H,64H
+                             ,79H,90H,0A9H,0C4H,0E1H
+
+002D 10192431                
+0031 40516479                
+0035 90A9C4E1                
+                      45     
+
+                      46     
+
+                      47     END
+
+A51 MACRO ASSEMBLER  EXC4                                                                 03/30/2018 21:06:48 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+INIT1. . . . . . .  C ADDR   0005H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+NEXT1. . . . . . .  C ADDR   000EH   A   
+TE1LP. . . . . . .  C ADDR   001CH   A   
+TEST1. . . . . . .  C ADDR   0019H   A   
+TG1. . . . . . . .  C ADDR   0005H   A   
+TG2. . . . . . . .  C ADDR   0023H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

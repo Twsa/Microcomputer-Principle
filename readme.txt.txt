@@ -1,3 +1,4 @@
+﻿大作业题目：多路数字式温度采集系统的设计
 查找三种存储器内部数据的方法
 1、内部数据存储器存储器 D/d
 2、外部数据存储器（外部RAM或者I/O接口）X/x
@@ -29,3 +30,5 @@ Keil与Proteus 联合调试
 （2）记事本打开D:\Tool_engineer\KEIL4\TOOLS.INI,然后在【c51】后面加上：
 TDRV5=BIN\VDM51.DLL ("Proteus VSM Monitor-51 Driver")
 这里的“5”要根据实际情况修改，只要和之前的不重复，就可以。
+
+程序状态字PSW 课本P30

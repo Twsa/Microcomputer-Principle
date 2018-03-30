@@ -1,0 +1,243 @@
+A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\exc3.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\exc3.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\exc3.lst
+                      ) OBJECT(.\Objects\exc3.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       exc3.ASM        
+
+                       2     ; Author                :       Twsa Liu
+
+                       3     ; Date                  :       2018-03-28
+
+                       4     ; Description   :       This is the third exercise,
+
+                       5     ;                                       target are 3-7,3-8,3-9,3-10 
+
+                       6     ;                                       at page 83 in textbook    
+
+                       7     
+
+                       8     ;Init
+
+0000                   9                     ORG             0000H
+
+0000                  10     MAIN:   
+
+0000 120040           11             LCALL   TG4
+
+0003 80FB             12             SJMP    MAIN
+
+                      13             
+
+                      14     ;target 3-7 
+
+                      15     ;ÒªÇó£º·ÖÎöÏÂÁÐÖ¸ÁîÖ´ÐÐ½á¹û¼°¶ÔPSWÖÐ±êÖ¾Î»µÄÓ°Ïì
+
+0005                  16     TG1:    
+
+                      17                     ;0A8H=10101000BÖÐ1µÄ¸öÊ¹²ÓÐ3¸öÎª
+
+                      18                     ;ÆæÊÎ»£¬ÆæÅ¼Ð£ÑéÎ»PÎª1
+
+0005 74A8             19                     MOV             A,#0A8H         
+
+                      20                     ;P66´ø½øÎ»µÄ¼Ó·¨Ö¸Áî,
+
+                      21                     ;ÓëADDµÈÍ¬£¬Í¬Ê±Ö¸ÁîÖ´ÐÐÖ®Ç°¼ÓÉÏ½øÎ»±êÖ¾C
+
+                      22                     ;Ö÷ÒªÓ¦ÓÃÔÚ¶à×Ö½ÚµÄ¼Ó·¨ÔËËã
+
+                      23                     ;ÉÏÒ»´Î²Ù×÷Ã»ÓÐ²úÉúCY=1£¬Òò´ËADDC²Ù×÷+C=0
+
+                      24                     ;µÍ°ë×Ö½ÚÏò¸ß°ë×Ö½Ú²úÉú½øÎ» AC=1
+
+                      25                     ;²úÉú½øÎ»CY=1
+
+0007 345D             26                     ADDC    A,#5DH
+
+0009 22               27                     RET
+
+                      28     ;target 3-8
+
+                      29     ;·ÖÎöÏÂÁÐ³ÌÐòÖÐ¸÷ÌõÖ¸ÁîµÄÖ´ÐÐ½á¹û
+
+000A 74F3             30     TG2:    MOV             A,#0F3H         ;(A)=0F3H
+
+000C 755034           31                     MOV             50H,#34H        ;(50H)=34H
+
+000F 5550             32                     ANL             A,50H           ;(A) and (50H)=F3H and 34H=30H
+
+0011 540F             33                     ANL             A,#0FH          ;(A) and 0FH=30H and 0FH=00H
+
+0013 4407             34                     ORL             A,#07H          ;(A) or 07H=00H or 07H=07H
+
+0015 6550             35                     XRL             A,50H           ;(A) xor (50H)=07H xor 34H=33H
+
+0017 22               36                     RET
+
+                      37     
+
+                      38     ;taget 3-9
+
+                      39     ;ÒªÇó£ºÐ´³öÊµÏÖÏÂÁÐÒªÇóµÄËùÐèÒªµÄÖ¸Áî»ò³ÌÐò¶Î
+
+0018                  40     TG3:
+
+                      41                     ;(1)½«R0µÄÄÚÈÝ´«ËÍµ½R2
+
+                      42                     ;¼Ä´æÆ÷RÖ®¼ä²»ÄÜÖ±½Ó´«µÝÊ¾ÝµÄ,Ö»ÄÜÍ¨¹ÀÛ¼ÓÆ÷AÀ´´«µÝÊ¾Ý
+
+0018 7845             43                     MOV             R0,#45H ;ÇåÃ÷½Ú
+
+001A E8               44                     MOV             A,R0
+
+001B FA               45                     MOV             R2,A
+
+                      46                     ;(2)½«ÄÚ²¿µÄRAMµÄ98Hµ¥ÔªµÄÄÚÈÝ´«ËÍµ½R6
+
+001C 759851           47                     MOV     98H,#51H  ;ÀÍ¶¯½Ú 
+
+001F AE98             48                     MOV             R6,98H
+
+                      49                     ;(3)½«Íâ²¿³ÌÐò´æ´¢Æ÷8000Hµ¥Ôª
+
+                      50                     ;ÄÚÈÝ´«ËÍµ½ÄÚ²¿RAMµÄ60Hµ¥Ôª
+
+0021 7411             51                     MOV             A,#11H  ;Ôªµ©
+
+0023 908000           52                     MOV             DPTR,#8000H
+
+0026 F0               53                     MOVX    @DPTR,A
+
+0027 E4               54                     CLR             A
+
+0028 E0               55                     MOVX    A,@DPTR
+
+0029 F560             56                     MOV             60H,A
+
+                      57                     ;(4)½«³ÌÐò´æ´¢Æ÷4000Hµ¥ÔªµÄ
+
+A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     2
+
+                      58                     ;ÄÚÈÝ´«ËÍµ½ÄÚ²¿RAMµÄ60Hµ¥Ôª
+
+002B 904000           59                     MOV             DPTR,#4000H
+
+002E E4               60                     CLR             A
+
+002F 93               61                     MOVC    A,@A+DPTR
+
+0030 F560             62                     MOV             60H,A
+
+                      63                     ;(5)½«ÀÛ¼ÓÆ÷¸ß4Î»Çå0¡¢
+
+                      64                     ;µÍ4Î»²»±ä
+
+0032 7435             65                     MOV             A,#35H  ;ÔªÏü½Ú
+
+0034 540F             66                     ANL             A,#0FH
+
+                      67                     ;(6)½«ÄÚ²¿RAMµÄ20Hµ¥ÔªµÄ
+
+                      68                     ;D6ºÍD2Î»È¡·´£¬ÆäÓàÎ»²»±ä
+
+                      69                     ;45H=0100 0101B,D6ºÍD2È¡·´ºó 
+
+                      70                     ;0000 0001B=01H
+
+0036 752045           71                     MOV             20H,#45H
+
+0039 E520             72                     MOV             A,20H
+
+003B 54BB             73                     ANL             A,#0XBB
+
+003D F520             74                     MOV             20H,A
+
+003F 22               75                     RET
+
+                      76     ;target 3-10
+
+                      77     ;ÒªÇó£ºÊÔ±àÐ´³ÌÐòÍê³É½«ÄÚ²¿µÄRAMµÄ90HÎªÊ×µØÖ·µÄ
+
+                      78     ;          20¸öÊ¾Ý´«ËÍµ½Íâ²¿RAMµÄ9000HÎªÊ×µØÖ·µÄÇøÓò
+
+                      79     ;51ÏµÁÐ£¬Æ¬ÄÚRAM·¶Î§Îª00H~7FH£¬ÊÇ128×Ö½Ú£»80H¡«FFH±»ÌØÊâ¹¦ÄÜ¼Ä´æÆ÷Ê¹ÓÃÁË¡£
+
+                      80     ;52ÏµÁÐ£¬Æ¬ÄÚRAM·¶Î§Îª00H~FFH£¬ÊÇ256×Ö½Ú£»µ«ÊÇÎªÁË¼æÈÝ51£¬
+
+                      81     ;ÌØÊâ¹¦ÄÜ¼Ä´æÆ÷ÈÔÈ»ÊÇ80H~FFH£¬Õâ¾Í³öÏÖÁËÎÊÌâ£¬
+
+                      82     ;80H~FFH¼ÈÊÇÌØÊâ¹¦ÄÜ¼Ä´æÆ÷ÓÖÊÇRAM£¬ÔõÃ´°ì£¿
+
+                      83     ;ÓÚÊÇ´ÏÃ÷µÄÉè¼Æ¹¤³ÌÊ¦ÃÇ¾Í¹æ¶¨£¬ÔÚ80H~FFH·¶Î§ÄÚ£¬·ÃÎÊRAM±ØÐëÓÃ¼ä½ÓÑ°Ö·¡£
+
+0040                  84     TG4:    
+
+0040 1154             85     INIT4:  ACALL   TEST4
+
+0042 909000           86                     MOV     DPTR,#9000H
+
+0045 7890             87                     MOV             R0,#90H
+
+0047 7F00             88                     MOV             R7,#00H  
+
+0049 E6               89     NEXT4:  MOV             A,@R0
+
+004A F0               90                     MOVX    @DPTR,A
+
+004B A3               91                     INC             DPTR
+
+004C 08               92                     INC             R0
+
+004D 0F               93                     INC             R7
+
+004E BF14F8           94                     CJNE    R7,#0X14,NEXT4  ;Dec 20
+
+0051 80FE             95                     SJMP    $
+
+0053 22               96                     RET
+
+0054 7890             97     TEST4:  MOV             R0,#90H
+
+0056 E4               98                     CLR             A
+
+0057 F6               99     TE4LP:  MOV             @R0,A
+
+0058 04              100                     INC             A
+
+0059 08              101                     INC             R0
+
+005A B8A4FA          102                     CJNE    R0,#0A4H,TE4LP  
+
+005D 22              103                     RET
+
+                     104     END     
+
+A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+INIT4. . . . . . .  C ADDR   0040H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+NEXT4. . . . . . .  C ADDR   0049H   A   
+TE4LP. . . . . . .  C ADDR   0057H   A   
+TEST4. . . . . . .  C ADDR   0054H   A   
+TG1. . . . . . . .  C ADDR   0005H   A   
+TG2. . . . . . . .  C ADDR   000AH   A   
+TG3. . . . . . . .  C ADDR   0018H   A   
+TG4. . . . . . . .  C ADDR   0040H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,37 @@
+A51 MACRO ASSEMBLER  HELLO                                                                03/28/2018 17:07:39 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\hello.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\hello.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\hello.l
+                      st) OBJECT(.\Objects\hello.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     000H
+
+0000 020030            2             LJMP MAIN
+
+0030                   3             ORG 0030H
+
+0030                   4     MAIN:   
+
+                       5     
+
+                       6             END
+
+A51 MACRO ASSEMBLER  HELLO                                                                03/28/2018 17:07:39 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+MAIN . . . . . . .  C ADDR   0030H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

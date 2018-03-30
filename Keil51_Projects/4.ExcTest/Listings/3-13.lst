@@ -1,0 +1,82 @@
+A51 MACRO ASSEMBLER  3_13                                                                 03/30/2018 09:32:30 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\3-13.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\3-13.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\3-13.lst
+                      ) OBJECT(.\Objects\3-13.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+
+0000 7A77              2             MOV     R2,#77H
+
+0002 EA                3             MOV     A,R2
+
+0003 752308            4             MOV     23H,#08
+
+0006 7900              5             MOV     R1,#00H
+
+0008 7B00              6             MOV R3,#00H   ;tmp rigister
+
+000A 120012            7     MAIN:   LCALL   LEFT
+
+000D D523FA            8     JUD:    DJNZ    23H,MAIN
+
+0010 80FE              9     STOP:   SJMP    STOP
+
+                      10     
+
+                      11     ;Ïò×óÒÆÎ»£¬³öÎ»
+
+0012 F5F0             12     LEFT:   MOV B,A
+
+0014 5480             13                     ANL     A,#0X80         ;¶ÔAÖÐµÄÄÚÈÝÓë0x80½øÐÐÓë²Ù×÷È¡×î¸ßÎ»    
+
+0016 12001D           14                     LCALL RIGHT
+
+0019 E5F0             15                     MOV     A,B                     ;»ñÈ¡±»²Ù×÷Ê¾Ý
+
+001B 23               16                     RL      A                       ;±»²Ù×÷Ê¾Ý×óÒÆ  
+
+001C 22               17                     RET
+
+                      18     ;ÏòÓÒÒÆÊ¾Ý£¬½øÎ»
+
+001D 4B               19     RIGHT:  ORL A,R3                ;½«×î¸ßÎ»Ê¾ÝÓëÖ®Ç°ÓÒÒÆµÄÊ¾Ý½øÐÐ»ò
+
+001E F9               20                     MOV     R1,A    
+
+001F E9               21                     MOV     A,R1
+
+0020 03               22                     RR      A
+
+0021 FB               23                     MOV R3,A
+
+0022 22               24                     RET
+
+                      25                     END
+
+                                             
+
+A51 MACRO ASSEMBLER  3_13                                                                 03/30/2018 09:32:30 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+JUD. . . . . . . .  C ADDR   000DH   A   
+LEFT . . . . . . .  C ADDR   0012H   A   
+MAIN . . . . . . .  C ADDR   000AH   A   
+RIGHT. . . . . . .  C ADDR   001DH   A   
+STOP . . . . . . .  C ADDR   0010H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
