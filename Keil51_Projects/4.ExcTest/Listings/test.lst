@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 03/30/2018 09:20:21 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/02/2018 20:07:03 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -8,51 +8,89 @@ ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\test.ASM INCDIR(.\User) SE
 
 LOC  OBJ            LINE     SOURCE
 
-0000                   1             ORG 000H
+0000                   1             ORG     0000H
 
-0000 7A52              2             MOV     R2,#52H
+0000 120028            2     MAIN:   LCALL   DTEST   
 
-0002 EA                3             MOV     A,R2
+0003 12001A            3                     LCALL   TEST2
 
-0003 752307            4             MOV     23H,#07
+0006 80FE              4                     STOP:   SJMP    $
 
-0006 7900              5             MOV     R1,#00H
+                       5                             
 
-0008 7B00              6             MOV R3,#00H   ;tmp
+0008 7830              6     TEST1:  MOV             R0,#30H
 
-000A F5F0              7     OPER:   MOV B,A
+000A 7900              7                     MOV             R1,#00H
 
-000C 5480              8             ANL     A,#0X80         ;¶ÔAÖÐµÄÄÚÈÝÓë0x80½øÐÐÓë²Ù×÷È¡×î¸ßÎ»    
+000C 7477              8                     MOV             A,#0X77 
 
-                       9             ;;;;;
+000E F6                9     FIRST1: MOV     @R0,A   ;´´½¨Á´±íÍ·                     
 
-000E 03               10             RR      A                       ;½«×î¸ßÎ»Ê¾ÝÓÒÒÆÒ»Î»
+000F E8               10     LOOP1:  MOV             A,R0    ;´´½¨Ò»¸ö½Úµã
 
-000F 4B               11             ORL A,R3                ;½«×î¸ßÎ»Ê¾ÝÓëÖ®Ç°ÓÒÒÆµÄÊ¾Ý½øÐÐ»ò
+0010 F9               11                     MOV             R1,A    
 
-0010 F9               12             MOV     R1,A    
+0011 09               12                     INC             R1              ;R0Ö¸Ïòµ±Ç°½Úµã£¬R1Ö¸ÏòÏÂÒ»¸ö½Úµã
 
-                      13             ;;
+0012 E6               13                     MOV             A,@R0   ;½ÚµãÁ¬½Ó²Ù×÷1
 
-0011 E9               14             MOV     A,R1
+0013 F7               14                     MOV     @R1,A   ;½ÚµãÁ¬½Ó²Ù×÷2
 
-0012 03               15             RR      A
+0014 08               15                     INC             R0      ;½ÚµãÔö¼Ó       
 
-0013 FB               16             MOV R3,A
+0015 E8               16                     MOV             A,R0
 
-                      17             ;;;;;
+0016 B43FF6           17                     CJNE    A,#3FH,LOOP1
 
-0014 E5F0             18             MOV     A,B                     ;»ñÈ¡±»²Ù×÷Ê¾Ý
+0019 22               18                     RET
 
-0016 23               19             RL      A                       ;±»²Ù×÷Ê¾Ý×óÒÆ
+001A 7800             19     TEST2:  MOV             R0,#00H
 
-0017 D523F0           20     JUD:    DJNZ    23H,OPER
+001C 793F             20                     MOV             R1,#3FH
 
-                      21             END
+001E F7               21                     MOV     @R1,A   ;´´½¨Á´±íÍ·                     
 
-                                             
+001F E9               22     LOOP2:  MOV             A,R1    ;´´½¨Ò»¸ö½Úµã
 
-A51 MACRO ASSEMBLER  TEST                                                                 03/30/2018 09:20:21 PAGE     2
+0020 F8               23                     MOV             R0,A    
+
+0021 18               24                     DEC             R0              ;R0Ö¸Ïòµ±Ç°½Úµã£¬R1Ö¸ÏòÏÂÒ»¸ö½Úµã
+
+0022 E6               25                     MOV             A,@R0   ;½ÚµãÁ¬½Ó²Ù×÷1
+
+0023 F7               26                     MOV     @R1,A   ;½ÚµãÁ¬½Ó²Ù×÷2
+
+0024 19               27                     DEC             R1      ;½ÚµãÔö¼Ó       
+
+0025 D8F8             28                     DJNZ    R0,LOOP2
+
+0027 22               29                     RET     
+
+0028 E4               30     DTEST:  CLR             A
+
+0029 75F000           31                     MOV             B,#00H
+
+002C 7830             32                     MOV             R0,#30H
+
+002E FF               33     TE1:    MOV             R7,A
+
+002F F6               34                     MOV             @R0,A
+
+0030 08               35                     INC             R0
+
+0031 E5F0             36                     MOV             A,B
+
+0033 04               37                     INC             A
+
+0034 F5F0             38                     MOV             B,A
+
+0036 B410F5           39                     CJNE    A,#0X10,TE1
+
+0039 22               40                     RET
+
+                      41     END
+
+A51 MACRO ASSEMBLER  TEST                                                                 04/02/2018 20:07:03 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -61,8 +99,15 @@ SYMBOL TABLE LISTING
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
 B. . . . . . . . .  D ADDR   00F0H   A   
-JUD. . . . . . . .  C ADDR   0017H   A   
-OPER . . . . . . .  C ADDR   000AH   A   
+DTEST. . . . . . .  C ADDR   0028H   A   
+FIRST1 . . . . . .  C ADDR   000EH   A   
+LOOP1. . . . . . .  C ADDR   000FH   A   
+LOOP2. . . . . . .  C ADDR   001FH   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+STOP . . . . . . .  C ADDR   0006H   A   
+TE1. . . . . . . .  C ADDR   002EH   A   
+TEST1. . . . . . .  C ADDR   0008H   A   
+TEST2. . . . . . .  C ADDR   001AH   A   
 
 
 REGISTER BANK(S) USED: 0 

@@ -1,0 +1,144 @@
+A51 MACRO ASSEMBLER  HEX2STR                                                              04/02/2018 19:39:28 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\hex2str.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\hex2str.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\hex2s
+                      tr.lst) OBJECT(.\Objects\hex2str.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       .ASM    
+
+                       2     ; Author                :       Twsa Liu
+
+                       3     ; Date                  :       2018-03-30
+
+                       4     ; Description   :       switch 0x01-0x0f t0 '1'-'f' and save to 50H
+
+0000                   5                     ORG 0000H
+
+0000                   6     MAIN:   
+
+0000 120033            7                     LCALL   TEST
+
+                       8                     ;MOV            R7,#0X00
+
+                       9                     ;LCALL  DERR
+
+                      10     ;NEXT:  LCALL   DJUD
+
+                      11                     ;MOV            R7,A
+
+0003 80FE             12     STOP:   SJMP    $
+
+                      13     ;Judge the type  of data which user input,and select appropriate handle
+
+0005 EF               14     DJUD:   MOV             A,R7
+
+0006 B40A00           15                     CJNE    A,#0X0A,JUD1
+
+0009 E5D0             16     JUD1:   MOV             A,PSW
+
+000B 5480             17                     ANL             A,#0X80
+
+000D B48007           18                     CJNE    A,#80H,HAL2
+
+0010 1113             19                     ACALL   HAL1
+
+0012 22               20                     RET
+
+0013 EF               21     HAL1:   MOV     A,R7
+
+0014 2430             22                     ADD             A,#0X30 
+
+0016 22               23                     RET
+
+0017 EF               24     HAL2:   MOV     A,R7
+
+0018 2437             25                     ADD             A,#0X37 
+
+001A 22               26                     RET
+
+                      27     ;If data is illegal,and then program will stop
+
+001B EF               28     DERR:   MOV             A,R7                                    
+
+001C B40000           29                     CJNE    A,#00H,DERR1  
+
+001F E5D0             30     DERR1:  MOV             A,PSW
+
+0021 5480             31                     ANL             A,#0X80           ;mov CY of PSW to A
+
+0023 B400DD           32                     CJNE    A,#00H,STOP   ;If data is smaller than 0 ,STOP
+
+0026 EF               33                     MOV             A,R7
+
+0027 B41000           34                     CJNE    A,#10H,DERR2            
+
+002A E5D0             35     DERR2:  MOV             A,PSW 
+
+002C 5480             36                     ANL             A,#0X80
+
+002E B4000C           37                     CJNE    A,#00H,NEXT       ;00h<=data<=0fh
+
+0031 1103             38                     ACALL   STOP
+
+                      39     ;利用查表指令进行查找，并将16个结果保存在以50H开头的地址上              
+
+0033 E4               40     TEST:   CLR             A
+
+0034 75F000           41                     MOV             B,#00H
+
+0037 7850             42                     MOV             R0,#50H
+
+0039 FF               43     TE1:    MOV             R7,A
+
+003A 12001B           44                     LCALL   DERR
+
+003D 120005           45     NEXT:   LCALL   DJUD
+
+0040 F6               46                     MOV             @R0,A
+
+0041 08               47                     INC             R0
+
+0042 E5F0             48                     MOV             A,B
+
+0044 04               49                     INC             A
+
+0045 F5F0             50                     MOV             B,A
+
+0047 B410EF           51                     CJNE    A,#0X10,TE1
+
+004A 1103             52                     ACALL   STOP
+
+                      53                     END
+
+A51 MACRO ASSEMBLER  HEX2STR                                                              04/02/2018 19:39:28 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+DERR . . . . . . .  C ADDR   001BH   A   
+DERR1. . . . . . .  C ADDR   001FH   A   
+DERR2. . . . . . .  C ADDR   002AH   A   
+DJUD . . . . . . .  C ADDR   0005H   A   
+HAL1 . . . . . . .  C ADDR   0013H   A   
+HAL2 . . . . . . .  C ADDR   0017H   A   
+JUD1 . . . . . . .  C ADDR   0009H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+NEXT . . . . . . .  C ADDR   003DH   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+STOP . . . . . . .  C ADDR   0003H   A   
+TE1. . . . . . . .  C ADDR   0039H   A   
+TEST . . . . . . .  C ADDR   0033H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

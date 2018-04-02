@@ -374,9 +374,9 @@
           <GroupName>User</GroupName>
           <Files>
             <File>
-              <FileName>3-13.ASM</FileName>
+              <FileName>test.ASM</FileName>
               <FileType>2</FileType>
-              <FilePath>.\User\3-13.ASM</FilePath>
+              <FilePath>.\User\test.ASM</FilePath>
             </File>
           </Files>
         </Group>

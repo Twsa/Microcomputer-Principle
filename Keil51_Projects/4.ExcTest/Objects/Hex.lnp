@@ -1,4 +1,4 @@
 ".\Objects\STARTUP.obj",
-".\Objects\exc4.obj" 
+".\Objects\test.obj" 
 TO ".\Objects\Hex" 
 PRINT(".\Listings\Hex.m51") RAMSIZE(256) 
