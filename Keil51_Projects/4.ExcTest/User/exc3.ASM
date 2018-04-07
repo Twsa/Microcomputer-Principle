@@ -8,7 +8,7 @@
 ;Init
 		ORG		0000H
 MAIN:	
-	LCALL	TG4
+	LCALL	TG3
 	SJMP	MAIN
 	
 ;target 3-7 
@@ -65,13 +65,12 @@ TG3:
 		MOV		A,#35H 	;元宵节
 		ANL		A,#0FH
 		;(6)将内部RAM的20H单元的
-		;D6和D2位取反，其余位不变
+		;D6和D2位取反，其余位不变,可按位寻址操作
 		;45H=0100 0101B,D6和D2取反后 
 		;0000 0001B=01H
 		MOV		20H,#45H
-		MOV		A,20H
-		ANL		A,#0XBB
-		MOV		20H,A
+		CPL		20H.6
+		CPL		20H.2
 		RET
 ;target 3-10
 ;要求：试编写程序完成将内部的RAM的90H为首地址的

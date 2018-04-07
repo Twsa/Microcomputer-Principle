@@ -1,0 +1,108 @@
+A51 MACRO ASSEMBLER  EXC5                                                                 04/07/2018 19:58:29 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\exc5.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\exc5.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\exc5.lst
+                      ) OBJECT(.\Objects\exc5.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       exc5.ASM        
+
+                       2     ; Author                :       Twsa Liu
+
+                       3     ; Date                  :       2018-04-03
+
+                       4     ; Description   :       This is delay demo,which including two different
+
+                       5     ;                                       models,each contains command "NOP",and the other no
+
+                       6     
+
+                       7     ;Init   
+
+0000                   8                     ORG             0000H
+
+0000 7E00              9                     MOV             R6,#0X00                ;x
+
+0002 7F00             10                     MOV             R7,#0X00                ;y
+
+0004 7400             11                     MOV             A,#0X00                 
+
+                      12     ;Main
+
+0006 F4               13     MAIN:   CPL     A
+
+0007 F590             14                     MOV             P1,A
+
+0009 12001A           15                     LCALL   TG2
+
+000C 0106             16                     AJMP    MAIN
+
+                      17     ;Delay with command NOP
+
+                      18     ;2*x*y+(1+1+2)*y=69*1000/2 (osc=12M)
+
+                      19     ;set x=0xff then y=0x42
+
+000E 7EFF             20     TG1:    MOV             R6,#0XFF                ;x
+
+0010 7F42             21                     MOV             R7,#0X42                ;y
+
+0012 DEFE             22     DEL1:   DJNZ    R6,$                    ;2
+
+0014 00               23     DEL2:   NOP                                             ;1
+
+0015 7EFF             24                     MOV             R6,#0XFF                ;1
+
+0017 DFF9             25                     DJNZ    R7,DEL1                 ;2
+
+0019 22               26                     RET
+
+                      27     
+
+                      28     ;Delay randomly
+
+                      29     ;2*x*y+(1+2)*y=69*1000/2 (osc=12M)
+
+                      30     ;set x=0xff then y=0x43
+
+001A                  31     TG2:
+
+001A 7EFF             32                     MOV             R6,#0XFF                ;x
+
+001C 7F43             33                     MOV             R7,#0X43                ;y
+
+001E DEFE             34     DEL3:   DJNZ    R6,$                    ;2
+
+0020 7EFF             35     DEL4:   MOV             R6,#0XFF                ;1
+
+0022 DFEE             36                     DJNZ    R7,DEL1                 ;2
+
+0024 22               37                     RET
+
+                      38                     END
+
+A51 MACRO ASSEMBLER  EXC5                                                                 04/07/2018 19:58:29 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEL1 . . . . . . .  C ADDR   0012H   A   
+DEL2 . . . . . . .  C ADDR   0014H   A   
+DEL3 . . . . . . .  C ADDR   001EH   A   
+DEL4 . . . . . . .  C ADDR   0020H   A   
+MAIN . . . . . . .  C ADDR   0006H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TG1. . . . . . . .  C ADDR   000EH   A   
+TG2. . . . . . . .  C ADDR   001AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

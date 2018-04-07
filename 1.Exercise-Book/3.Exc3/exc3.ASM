@@ -8,8 +8,8 @@
 ;Init
 		ORG		0000H
 MAIN:	
-	LCALL	TG4
-	SJMP	MAIN
+		LCALL	TG4
+		SJMP	MAIN
 	
 ;target 3-7 
 ;要求：分析下列指令执行结果及对PSW中标志位的影响

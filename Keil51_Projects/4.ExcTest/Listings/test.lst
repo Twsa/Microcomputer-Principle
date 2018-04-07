@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 04/02/2018 20:07:03 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/07/2018 18:26:28 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -8,89 +8,83 @@ ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\test.ASM INCDIR(.\User) SE
 
 LOC  OBJ            LINE     SOURCE
 
-0000                   1             ORG     0000H
+                       1     ; FileName              :       exc5.ASM        
 
-0000 120028            2     MAIN:   LCALL   DTEST   
+                       2     ; Author                :       Twsa Liu
 
-0003 12001A            3                     LCALL   TEST2
+                       3     ; Date                  :       2018-04-03
 
-0006 80FE              4                     STOP:   SJMP    $
+                       4     ; Description   :       This is delay demo,which including two different
 
-                       5                             
+                       5     ;                                       models,each contains command "NOP",and the other no
 
-0008 7830              6     TEST1:  MOV             R0,#30H
+                       6     
 
-000A 7900              7                     MOV             R1,#00H
+                       7     ;Init   
 
-000C 7477              8                     MOV             A,#0X77 
+0000                   8                     ORG             0000H
 
-000E F6                9     FIRST1: MOV     @R0,A   ;创建链表头                     
+0000 7E00              9                     MOV             R6,#0X00                ;x
 
-000F E8               10     LOOP1:  MOV             A,R0    ;创建一个节点
+0002 7F00             10                     MOV             R7,#0X00                ;y
 
-0010 F9               11                     MOV             R1,A    
+0004 7400             11                     MOV             A,#0X00                 
 
-0011 09               12                     INC             R1              ;R0指向当前节点，R1指向下一个节点
+                      12     ;Main
 
-0012 E6               13                     MOV             A,@R0   ;节点连接操作1
+0006 F4               13     MAIN:   CPL     A
 
-0013 F7               14                     MOV     @R1,A   ;节点连接操作2
+0007 F590             14                     MOV             P1,A
 
-0014 08               15                     INC             R0      ;节点增加       
+0009 12001A           15                     LCALL   TG2
 
-0015 E8               16                     MOV             A,R0
+000C 0106             16                     AJMP    MAIN
 
-0016 B43FF6           17                     CJNE    A,#3FH,LOOP1
+                      17     ;Delay with command NOP
 
-0019 22               18                     RET
+                      18     ;2*x*y+(1+1+2)*y=69*1000 (osc=12M)
 
-001A 7800             19     TEST2:  MOV             R0,#00H
+                      19     ;令x=0xff 得 y=0x42
 
-001C 793F             20                     MOV             R1,#3FH
+000E 7EFF             20     TG1:    MOV             R6,#0XFF                ;x
 
-001E F7               21                     MOV     @R1,A   ;创建链表头                     
+0010 7F42             21                     MOV             R7,#0X42                ;y
 
-001F E9               22     LOOP2:  MOV             A,R1    ;创建一个节点
+0012 DEFE             22     DEL1:   DJNZ    R6,$                    ;2
 
-0020 F8               23                     MOV             R0,A    
+0014 00               23     DEL2:   NOP                                             ;1
 
-0021 18               24                     DEC             R0              ;R0指向当前节点，R1指向下一个节点
+0015 7EFF             24                     MOV             R6,#0XFF                ;1
 
-0022 E6               25                     MOV             A,@R0   ;节点连接操作1
+0017 DFF9             25                     DJNZ    R7,DEL1                 ;2
 
-0023 F7               26                     MOV     @R1,A   ;节点连接操作2
+0019 22               26                     RET
 
-0024 19               27                     DEC             R1      ;节点增加       
+                      27     
 
-0025 D8F8             28                     DJNZ    R0,LOOP2
+                      28     ;Delay randomly
 
-0027 22               29                     RET     
+                      29     ;2*x*y+(1+2)*y=69*1000 (osc=12M)
 
-0028 E4               30     DTEST:  CLR             A
+                      30     ;令x=0xff 得 y=0x43
 
-0029 75F000           31                     MOV             B,#00H
+001A                  31     TG2:
 
-002C 7830             32                     MOV             R0,#30H
+001A 7EFF             32                     MOV             R6,#0XFF                ;x
 
-002E FF               33     TE1:    MOV             R7,A
+001C 7F43             33                     MOV             R7,#0X43                ;y
 
-002F F6               34                     MOV             @R0,A
+001E DEFE             34     DEL3:   DJNZ    R6,$                    ;2
 
-0030 08               35                     INC             R0
+0020 7EFF             35     DEL4:   MOV             R6,#0XFF                ;1
 
-0031 E5F0             36                     MOV             A,B
+0022 DFEE             36                     DJNZ    R7,DEL1                 ;2
 
-0033 04               37                     INC             A
+0024 22               37                     RET
 
-0034 F5F0             38                     MOV             B,A
+                      38                     END
 
-0036 B410F5           39                     CJNE    A,#0X10,TE1
-
-0039 22               40                     RET
-
-                      41     END
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/02/2018 20:07:03 PAGE     2
+A51 MACRO ASSEMBLER  TEST                                                                 04/07/2018 18:26:28 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -98,16 +92,14 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-B. . . . . . . . .  D ADDR   00F0H   A   
-DTEST. . . . . . .  C ADDR   0028H   A   
-FIRST1 . . . . . .  C ADDR   000EH   A   
-LOOP1. . . . . . .  C ADDR   000FH   A   
-LOOP2. . . . . . .  C ADDR   001FH   A   
-MAIN . . . . . . .  C ADDR   0000H   A   
-STOP . . . . . . .  C ADDR   0006H   A   
-TE1. . . . . . . .  C ADDR   002EH   A   
-TEST1. . . . . . .  C ADDR   0008H   A   
-TEST2. . . . . . .  C ADDR   001AH   A   
+DEL1 . . . . . . .  C ADDR   0012H   A   
+DEL2 . . . . . . .  C ADDR   0014H   A   
+DEL3 . . . . . . .  C ADDR   001EH   A   
+DEL4 . . . . . . .  C ADDR   0020H   A   
+MAIN . . . . . . .  C ADDR   0006H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TG1. . . . . . . .  C ADDR   000EH   A   
+TG2. . . . . . . .  C ADDR   001AH   A   
 
 
 REGISTER BANK(S) USED: 0 

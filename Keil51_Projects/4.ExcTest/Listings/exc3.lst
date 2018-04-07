@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     1
+A51 MACRO ASSEMBLER  EXC3                                                                 04/04/2018 11:35:41 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -28,7 +28,7 @@ LOC  OBJ            LINE     SOURCE
 
 0000                  10     MAIN:   
 
-0000 120040           11             LCALL   TG4
+0000 120018           11             LCALL   TG3
 
 0003 80FB             12             SJMP    MAIN
 
@@ -122,7 +122,7 @@ LOC  OBJ            LINE     SOURCE
 
                       57                     ;(4)将程序存储器4000H单元的
 
-A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     2
+A51 MACRO ASSEMBLER  EXC3                                                                 04/04/2018 11:35:41 PAGE     2
 
                       58                     ;内容传送到内部RAM的60H单元
 
@@ -144,7 +144,7 @@ LOC  OBJ            LINE     SOURCE
 
                       67                     ;(6)将内部RAM的20H单元的
 
-                      68                     ;D6和D2位取反，其余位不变
+                      68                     ;D6和D2位取反，其余位不变,可按位寻址操作
 
                       69                     ;45H=0100 0101B,D6和D2取反后 
 
@@ -152,73 +152,71 @@ LOC  OBJ            LINE     SOURCE
 
 0036 752045           71                     MOV             20H,#45H
 
-0039 E520             72                     MOV             A,20H
+0039 B206             72                     CPL             20H.6
 
-003B 54BB             73                     ANL             A,#0XBB
+003B B202             73                     CPL             20H.2
 
-003D F520             74                     MOV             20H,A
+003D 22               74                     RET
 
-003F 22               75                     RET
+                      75     ;target 3-10
 
-                      76     ;target 3-10
+                      76     ;要求：试编写程序完成将内部的RAM的90H为首地址的
 
-                      77     ;要求：试编写程序完成将内部的RAM的90H为首地址的
+                      77     ;          20个示荽偷酵獠縍AM的9000H为首地址的区域
 
-                      78     ;          20个示荽偷酵獠縍AM的9000H为首地址的区域
+                      78     ;51系列，片内RAM范围为00H~7FH，是128字节；80H～FFH被特殊功能寄存器使用了。
 
-                      79     ;51系列，片内RAM范围为00H~7FH，是128字节；80H～FFH被特殊功能寄存器使用了。
+                      79     ;52系列，片内RAM范围为00H~FFH，是256字节；但是为了兼容51，
 
-                      80     ;52系列，片内RAM范围为00H~FFH，是256字节；但是为了兼容51，
+                      80     ;特殊功能寄存器仍然是80H~FFH，这就出现了问题，
 
-                      81     ;特殊功能寄存器仍然是80H~FFH，这就出现了问题，
+                      81     ;80H~FFH既是特殊功能寄存器又是RAM，怎么办？
 
-                      82     ;80H~FFH既是特殊功能寄存器又是RAM，怎么办？
+                      82     ;于是聪明的设计工程师们就规定，在80H~FFH范围内，访问RAM必须用间接寻址。
 
-                      83     ;于是聪明的设计工程师们就规定，在80H~FFH范围内，访问RAM必须用间接寻址。
+003E                  83     TG4:    
 
-0040                  84     TG4:    
+003E 1152             84     INIT4:  ACALL   TEST4
 
-0040 1154             85     INIT4:  ACALL   TEST4
+0040 909000           85                     MOV     DPTR,#9000H
 
-0042 909000           86                     MOV     DPTR,#9000H
+0043 7890             86                     MOV             R0,#90H
 
-0045 7890             87                     MOV             R0,#90H
+0045 7F00             87                     MOV             R7,#00H  
 
-0047 7F00             88                     MOV             R7,#00H  
+0047 E6               88     NEXT4:  MOV             A,@R0
 
-0049 E6               89     NEXT4:  MOV             A,@R0
+0048 F0               89                     MOVX    @DPTR,A
 
-004A F0               90                     MOVX    @DPTR,A
+0049 A3               90                     INC             DPTR
 
-004B A3               91                     INC             DPTR
+004A 08               91                     INC             R0
 
-004C 08               92                     INC             R0
+004B 0F               92                     INC             R7
 
-004D 0F               93                     INC             R7
+004C BF14F8           93                     CJNE    R7,#0X14,NEXT4  ;Dec 20
 
-004E BF14F8           94                     CJNE    R7,#0X14,NEXT4  ;Dec 20
+004F 80FE             94                     SJMP    $
 
-0051 80FE             95                     SJMP    $
+0051 22               95                     RET
 
-0053 22               96                     RET
+0052 7890             96     TEST4:  MOV             R0,#90H
 
-0054 7890             97     TEST4:  MOV             R0,#90H
+0054 E4               97                     CLR             A
 
-0056 E4               98                     CLR             A
+0055 F6               98     TE4LP:  MOV             @R0,A
 
-0057 F6               99     TE4LP:  MOV             @R0,A
+0056 04               99                     INC             A
 
-0058 04              100                     INC             A
+0057 08              100                     INC             R0
 
-0059 08              101                     INC             R0
+0058 B8A4FA          101                     CJNE    R0,#0A4H,TE4LP  
 
-005A B8A4FA          102                     CJNE    R0,#0A4H,TE4LP  
+005B 22              102                     RET
 
-005D 22              103                     RET
+                     103     END     
 
-                     104     END     
-
-A51 MACRO ASSEMBLER  EXC3                                                                 03/30/2018 19:47:02 PAGE     3
+A51 MACRO ASSEMBLER  EXC3                                                                 04/04/2018 11:35:41 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -226,15 +224,15 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-INIT4. . . . . . .  C ADDR   0040H   A   
+INIT4. . . . . . .  C ADDR   003EH   A   
 MAIN . . . . . . .  C ADDR   0000H   A   
-NEXT4. . . . . . .  C ADDR   0049H   A   
-TE4LP. . . . . . .  C ADDR   0057H   A   
-TEST4. . . . . . .  C ADDR   0054H   A   
+NEXT4. . . . . . .  C ADDR   0047H   A   
+TE4LP. . . . . . .  C ADDR   0055H   A   
+TEST4. . . . . . .  C ADDR   0052H   A   
 TG1. . . . . . . .  C ADDR   0005H   A   
 TG2. . . . . . . .  C ADDR   000AH   A   
 TG3. . . . . . . .  C ADDR   0018H   A   
-TG4. . . . . . . .  C ADDR   0040H   A   
+TG4. . . . . . . .  C ADDR   003EH   A   
 
 
 REGISTER BANK(S) USED: 0 

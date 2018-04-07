@@ -362,21 +362,14 @@
       <Groups>
         <Group>
           <GroupName>Startup</GroupName>
-          <Files>
-            <File>
-              <FileName>STARTUP.A51</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\STARTUP.A51</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>User</GroupName>
           <Files>
             <File>
-              <FileName>test.ASM</FileName>
+              <FileName>exc5.ASM</FileName>
               <FileType>2</FileType>
-              <FilePath>.\User\test.ASM</FilePath>
+              <FilePath>.\User\exc5.ASM</FilePath>
             </File>
           </Files>
         </Group>
