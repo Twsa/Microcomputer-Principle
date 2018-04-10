@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 04/07/2018 18:26:28 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -8,83 +8,155 @@ ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\test.ASM INCDIR(.\User) SE
 
 LOC  OBJ            LINE     SOURCE
 
-                       1     ; FileName              :       exc5.ASM        
+                       1     ; FileName              :       exc6.ASM        
 
                        2     ; Author                :       Twsa Liu
 
-                       3     ; Date                  :       2018-04-03
+                       3     ; Date                  :       2018-04-08
 
-                       4     ; Description   :       This is delay demo,which including two different
+                       4     ; Description   :   The skeleton of interrupt programming with timer
 
-                       5     ;                                       models,each contains command "NOP",and the other no
+                       5     
 
-                       6     
+                       6     ;ÌâÄ¿£ºÀûÓÃ¶¨Ê±Æ÷ÖÐ¶Ï¼¼Êõ£¬ÔÚP1.0¿ÚÊä³öÂö³åÖÜÆÚÎª 2*£¨50+19)=138ms µÄ·½²¨¡£
 
-                       7     ;Init   
+                       7     ;ÒªÇó£º 
 
-0000                   8                     ORG             0000H
+                       8        ;1£©¾§ÕñÆµÂÊ×ÔÐÐÉè¶¨£»
 
-0000 7E00              9                     MOV             R6,#0X00                ;x
+                       9        ;2£©ÓÐÏêÏ¸µÄ³õÖµ¼ÆËã¹³Ì£»
 
-0002 7F00             10                     MOV             R7,#0X00                ;y
+                      10        ;3£©»æÖÆÖ÷³ÌÐòÁ÷³ÌÍ¼¡¢ÖÐ¶Ï·þÎñ×Ó³ÌÐòÁ÷³ÌÍ¼£»
 
-0004 7400             11                     MOV             A,#0X00                 
+                      11        ;4£©±È½Ï²ÉÓÃÈí¼þÑÓÊ±Óë¶¨Ê±Æ÷ÖÐ¶Ï¶¨Ê±µÄÉè¼Æ¹³Ì£¬Éè¼Æ½á¹û¡£
 
-                      12     ;Main
+                      12        ;5£©ÐÎÊ½£ºword ÎÄµµ
 
-0006 F4               13     MAIN:   CPL     A
+                      13        ;6£©½ØÖ¹Ê±¼ä£º5ÔÂ1ÈÕ
 
-0007 F590             14                     MOV             P1,A
+                      14     
 
-0009 12001A           15                     LCALL   TG2
+                      15     ;(1)Ñ¡Ôñ¹¤×÷·½Ê½
 
-000C 0106             16                     AJMP    MAIN
+                      16     ;(2)¼ÆËãT1³õÖµ
 
-                      17     ;Delay with command NOP
+                      17     ;(3)Ô´³ÌÐò
 
-                      18     ;2*x*y+(1+1+2)*y=69*1000 (osc=12M)
+0000                  18                     ORG             0000H
 
-                      19     ;Áîx=0xff µÃ y=0x42
+0000 020030           19                     LJMP    MAIN
 
-000E 7EFF             20     TG1:    MOV             R6,#0XFF                ;x
+000B                  20                     ORG             000BH   ;T0ÖÐ¶ÏÈë¿ÚµØÖ· 
 
-0010 7F42             21                     MOV             R7,#0X42                ;y
+000B 020048           21                     LJMP    PT0F    
 
-0012 DEFE             22     DEL1:   DJNZ    R6,$                    ;2
+0030                  22                     ORG             0030H   ;Ö÷³ÌÐòµÄÈë¿ÚµØÖ·
 
-0014 00               23     DEL2:   NOP                                             ;1
+0030 7581EF           23     MAIN:   MOV             SP,#0EFH        ;¶ÑÕ»ÉèÔÚ0F0H~0FFH (ÄÚ²¿Ê¾Ý´æ´¢Çø)
 
-0015 7EFF             24                     MOV             R6,#0XFF                ;1
+0033 7F45             24                     MOV             R7,#69D
 
-0017 DFF9             25                     DJNZ    R7,DEL1                 ;2
+0035 758901           25                     MOV             TMOD,#01H       ;T0Îª·½Ê½1 ¶¨Ê±Æ÷
 
-0019 22               26                     RET
+0038 758A17           26                     MOV             TL0,#17H        
 
-                      27     
+003B 758CFC           27                     MOV             TH0,#0FCH
 
-                      28     ;Delay randomly
+003E D2A9             28                     SETB    ET0                     ;ÔÊÐíT0ÖÐ¶Ï     
 
-                      29     ;2*x*y+(1+2)*y=69*1000 (osc=12M)
+0040 C2D5             29                     CLR             F0                      ;Çå0±êÖ¾Î»F0
 
-                      30     ;Áîx=0xff µÃ y=0x43
+0042 D2AF             30                     SETB    EA                      ;CPU¿ªÖÐ¶Ï
 
-001A                  31     TG2:
+0044 D28C             31                     SETB    TR0                     ;Æô¶¯T0
 
-001A 7EFF             32                     MOV             R6,#0XFF                ;x
+0046 80FE             32     HERE:   SJMP    HERE            ;µÈ´T0ÖÐ¶Ï
 
-001C 7F43             33                     MOV             R7,#0X43                ;y
+0048 758A17           33     PT0F:   MOV             TL0,#17H        
 
-001E DEFE             34     DEL3:   DJNZ    R6,$                    ;2
+004B 758CFC           34                     MOV             TH0,#0FCH
 
-0020 7EFF             35     DEL4:   MOV             R6,#0XFF                ;1
+004E DF04             35                     DJNZ    R7,RT
 
-0022 DFEE             36                     DJNZ    R7,DEL1                 ;2
+0050 7F45             36                     MOV             R7,#69D
 
-0024 22               37                     RET
+0052 B290             37                     CPL             P1.0
 
-                      38                     END
+0054 32               38     RT:             RETI    
 
-A51 MACRO ASSEMBLER  TEST                                                                 04/07/2018 18:26:28 PAGE     2
+                      39                     END
+
+                             
+
+                             ;·½Ê½1 ²Ù×÷TIM0  ²éÑ¯·½Ê½³ÌÐò
+
+                                             ;ORG            0000H
+
+                                             ;LJMP   MAIN    
+
+                                             ;ORG            0030H
+
+                             ;MAIN:  MOV             SP,#0EFH
+
+                                             ;MOV            TMOD,#01H
+
+                                             ;MOV            TL0,#78H
+
+                                             ;SETB   TR0
+
+                             ;LOOP:  JBC             TF0,NEXT
+
+                                             ;SJMP   LOOP
+
+                             ;NEXT:  MOV             TH0,#0ECH
+
+                                             ;MOV            TL0,#78H
+
+                                             ;CPL            P1.0
+
+                                             ;SJMP   LOOP
+
+                                             ;END
+
+                             ;·½Ê½2 ²Ù×÷TIM0  Òç³öÖÐ¶ÏµÄ·½Ê½³ÌÐò
+
+                                             ;ORG            0000H
+
+A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     2
+
+                                             ;LJMP   MAIN
+
+                                             ;ORG            000BH   ;T0ÖÐ¶ÏÈë¿ÚµØÖ· 
+
+                                             ;LJMP   PT0F    
+
+                                             ;ORG            0030H   ;Ö÷³ÌÐòµÄÈë¿ÚµØÖ·
+
+                             ;MAIN:  MOV             SP,#0EFH        ;¶ÑÕ»ÉèÔÚ0F0H~0FFH (ÄÚ²¿Ê¾Ý´æ´¢Çø)
+
+                                             ;MOV            TMOD,#02H       ;T0Îª·½Ê½2 ¶¨Ê±Æ÷
+
+                                             ;MOV            TL0,#00H        
+
+                                             ;MOV            TH0,#00H
+
+                                             ;SETB   ET0                     ;ÔÊÐíT0ÖÐ¶Ï     
+
+                                             ;CLR            F0                      ;Çå0±êÖ¾Î»F0
+
+                                             ;SETB   EA                      ;CPU¿ªÖÐ¶Ï
+
+                                             ;SETB   TR0                     ;Æô¶¯T0
+
+                             ;HERE:  SJMP    HERE            ;µÈ´T0ÖÐ¶Ï
+
+                             ;PT0F:  CPL             P1.0            ;Êä³ö·½²¨
+
+                                             ;RETI
+
+                                             ;END
+
+A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -92,14 +164,19 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-DEL1 . . . . . . .  C ADDR   0012H   A   
-DEL2 . . . . . . .  C ADDR   0014H   A   
-DEL3 . . . . . . .  C ADDR   001EH   A   
-DEL4 . . . . . . .  C ADDR   0020H   A   
-MAIN . . . . . . .  C ADDR   0006H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+HERE . . . . . . .  C ADDR   0046H   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
-TG1. . . . . . . .  C ADDR   000EH   A   
-TG2. . . . . . . .  C ADDR   001AH   A   
+PT0F . . . . . . .  C ADDR   0048H   A   
+RT . . . . . . . .  C ADDR   0054H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
 
 
 REGISTER BANK(S) USED: 0 
