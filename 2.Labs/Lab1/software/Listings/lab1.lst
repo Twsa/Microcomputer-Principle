@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     1
+A51 MACRO ASSEMBLER  LAB1                                                                 04/12/2018 10:54:15 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -12,7 +12,7 @@ LOC  OBJ            LINE     SOURCE
 
                        2     ; Author                :               Twsa Liu
 
-                       3     ; Date                  :               2017-03-23
+                       3     ; Date                  :               2018-03-23
 
                        4     ; Description   :               This is a lab ofm AT89C52RC.
 
@@ -39,134 +39,130 @@ LOC  OBJ            LINE     SOURCE
 
 000E                  15     LOOP:   
 
-                      16                     ;LCALL  TEST1
+                      16                     ;LCALL  TEST3   
 
-                      17                     ;LCALL  TEST2
+000E 120043           17                     LCALL   TEST4           
 
-                      18                     ;LCALL  TEST3
+0011 010E             18                     AJMP    LOOP            
 
-000E 120043           19                     LCALL   TEST4           
+                      19     
 
-0011 010E             20                     AJMP    LOOP            
+                      20     ;Light leds using switchs(P2)
 
-                      21     
+0013 85A090           21     TEST1:  MOV     P1,P2           ;using switchligs to ht D1-D7
 
-                      22     ;Light leds using switchs(P2)
+0016 22               22                     RET
 
-0013 85A090           23     TEST1:  MOV     P1,P2           ;using switchligs to ht D1-D7
+                      23     
 
-0016 22               24                     RET
+                      24     ;Set a switch(P3.0) to control system 
 
-                      25     
+0017 20B0FD           25     WAIT:   JB              P3.0,WAIT       ;if(P3.0=1) WAIT ,equal to bouncing the switch
 
-                      26     ;Set a switch(P3.0) to control system 
+001A 20B0FA           26     TEST2:  JB              P3.0,WAIT       
 
-0017 20B0FD           27     WAIT:   JB              P3.0,WAIT       ;if(P3.0=1) WAIT ,equal to bouncing the switch
+001D 85A090           27                     MOV     P1,P2
 
-001A 20B0FA           28     TEST2:  JB              P3.0,WAIT       
+0020 20B0F4           28                     JB              P3.0,WAIT
 
-001D 85A090           29                     MOV     P1,P2
+0023 22               29                     RET     
 
-0020 20B0F4           30                     JB              P3.0,WAIT
+                      30     
 
-0023 22               31                     RET     
+                      31     ;Binkly and contain operation of pasuing
 
-                      32     
+0024 20B0FD           32     WAIT1:  JB              P3.0,WAIT1
 
-                      33     ;Binkly and contain operation of pasuing
+0027 20B0FA           33     TEST3:  JB              P3.0,WAIT1
 
-0024 20B0FD           34     WAIT1:  JB              P3.0,WAIT1
+002A 93               34     AGAIN:  MOVC    A,@A+DPTR
 
-0027 20B0FA           35     TEST3:  JB              P3.0,WAIT1
+002B F590             35     PASUE:  MOV     P1,A                    ;PASUE operator
 
-002A 93               36     AGAIN:  MOVC    A,@A+DPTR
+002D 20B0FB           36                     JB              P3.0,PASUE
 
-002B F590             37     PASUE:  MOV     P1,A                    ;PASUE operator
+0030 120069           37                     LCALL   DELAY
 
-002D 20B0FB           38                     JB              P3.0,PASUE
+0033 E5F0             38                     MOV             A,B
 
-0030 120069           39                     LCALL   DELAY
+0035 05F0             39                     INC             B
 
-0033 E5F0             40                     MOV             A,B
+0037 B40704           40                     CJNE    A,#0X07,NEXT
 
-0035 05F0             41                     INC             B
+003A 75F000           41                     MOV             B,#0X00         ;rest accumator A to zero
 
-0037 B40704           42                     CJNE    A,#0X07,NEXT
+003D 22               42                     RET
 
-003A 75F000           43                     MOV             B,#0X00         ;rest accumator A to zero
+003E 80EA             43     NEXT:   SJMP    AGAIN
 
-003D 22               44                     RET
+                      44     
 
-003E 80EA             45     NEXT:   SJMP    AGAIN
+                      45     ;Binkly and contain operation of stopping
 
-                      46     
+0040 20B0FD           46     WAIT2:  JB              P3.0,WAIT2
 
-                      47     ;Binkly and contain operation of stopping
+0043 20B0FA           47     TEST4:  JB              P3.0,WAIT2
 
-0040 20B0FD           48     WAIT2:  JB              P3.0,WAIT2
+0046 93               48     AGAIN1: MOVC    A,@A+DPTR
 
-0043 20B0FA           49     TEST4:  JB              P3.0,WAIT2
+0047 F590             49                     MOV     P1,A
 
-0046 93               50     AGAIN1: MOVC    A,@A+DPTR
+0049 20B010           50                     JB              P3.0,STOP
 
-0047 F590             51                     MOV     P1,A
+004C 120069           51                     LCALL   DELAY
 
-0049 20B010           52                     JB              P3.0,STOP
+004F E5F0             52                     MOV             A,B
 
-004C 120069           53                     LCALL   DELAY
+0051 05F0             53                     INC             B
 
-004F E5F0             54                     MOV             A,B
+0053 B40704           54                     CJNE    A,#0X07,NEXT1
 
-0051 05F0             55                     INC             B
+0056 75F000           55                     MOV             B,#0X00         ;rest accumator A to zero
 
-0053 B40704           56                     CJNE    A,#0X07,NEXT1
+0059 22               56                     RET
 
-A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     2
+A51 MACRO ASSEMBLER  LAB1                                                                 04/12/2018 10:54:15 PAGE     2
 
-0056 75F000           57                     MOV             B,#0X00         ;rest accumator A to zero
+005A 80EA             57     NEXT1:  SJMP    AGAIN1
 
-0059 22               58                     RET
+005C 7400             58     STOP:   MOV             A,#00H
 
-005A 80EA             59     NEXT1:  SJMP    AGAIN1
+005E 75F000           59                     MOV             B,#00H
 
-005C 7400             60     STOP:   MOV             A,#00H
+0061 7590FF           60                     MOV             P1,#0XFF
 
-005E 75F000           61                     MOV             B,#00H
+0064 20B0F5           61                     JB              P3.0,STOP
 
-0061 7590FF           62                     MOV             P1,#0XFF
+0067 80DA             62                     SJMP    TEST4
 
-0064 20B0F5           63                     JB              P3.0,STOP
+                      63                     
 
-0067 80DA             64                     SJMP    TEST4
+                      64     ;Delay function
 
-                      65                     
+0069 7F03             65     DELAY:  MOV     R7,#3
 
-                      66     ;Delay function
+006B 7EC8             66     DEL1:   MOV             R6,#200
 
-0069 7F03             67     DELAY:  MOV     R7,#3
+006D 7DF8             67     DEL2:   MOV             R5,#248
 
-006B 7EC8             68     DEL1:   MOV             R6,#200
+006F DDFE             68                     DJNZ    R5,$
 
-006D 7DF8             69     DEL2:   MOV             R5,#248
+0071 DEFA             69                     DJNZ    R6,DEL2
 
-006F DDFE             70                     DJNZ    R5,$
+0073 DFF6             70                     DJNZ    R7,DEL1
 
-0071 DEFA             71                     DJNZ    R6,DEL2
+0075 22               71                     RET
 
-0073 DFF6             72                     DJNZ    R7,DEL1
+                      72                     
 
-0075 22               73                     RET
-
-                      74                     
-
-0076 FEFDFBF7         75     LED_TB: DB              0XFE,0XFD,0XFB,0XF7,0XEF,0XDF,0XBF,0X7F
+0076 FEFDFBF7         73     LED_TB: DB              0XFE,0XFD,0XFB,0XF7,0XEF,0XDF,0XBF,0X7F
 
 007A EFDFBF7F                
-                      76                     END
+                      74                     END
 
                                      
 
-A51 MACRO ASSEMBLER  LAB1                                                                 03/23/2018 14:47:17 PAGE     3
+A51 MACRO ASSEMBLER  LAB1                                                                 04/12/2018 10:54:15 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------

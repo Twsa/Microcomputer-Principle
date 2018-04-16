@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/16/2018 19:22:15 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -8,155 +8,111 @@ ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\test.ASM INCDIR(.\User) SE
 
 LOC  OBJ            LINE     SOURCE
 
-                       1     ; FileName              :       exc6.ASM        
+                       1     ; FileName              :       serial.ASM      
 
                        2     ; Author                :       Twsa Liu
 
-                       3     ; Date                  :       2018-04-08
+                       3     ; Date                  :       2018-04-16
 
-                       4     ; Description   :   The skeleton of interrupt programming with timer
+                       4     ; Description   :   Serial test
 
                        5     
 
-                       6     ;ÌâÄ¿£ºÀûÓÃ¶¨Ê±Æ÷ÖÐ¶Ï¼¼Êõ£¬ÔÚP1.0¿ÚÊä³öÂö³åÖÜÆÚÎª 2*£¨50+19)=138ms µÄ·½²¨¡£
+                       6     ;ÌâÄ¿£ºÓÃAT89C52RCDµ¥Æ¬»úµÄ´®ÐÐ½Ó¿ÚÀ©Õ¹Ò»¸ö8Î»²¢ÐÐÊä³ö¿Ú£¬½Ó8¸ö·¢¹â¶þ¼«¹Ü£¬
 
-                       7     ;ÒªÇó£º 
+                       7     ;          ±àÐ´·¢ÊÂë¹Ü´Ó0-FµÄ³ÌÐò
 
-                       8        ;1£©¾§ÕñÆµÂÊ×ÔÐÐÉè¶¨£»
+                       8     
 
-                       9        ;2£©ÓÐÏêÏ¸µÄ³õÖµ¼ÆËã¹³Ì£»
+0000                   9             ORG             0000H
 
-                      10        ;3£©»æÖÆÖ÷³ÌÐòÁ÷³ÌÍ¼¡¢ÖÐ¶Ï·þÎñ×Ó³ÌÐòÁ÷³ÌÍ¼£»
+0000 020100           10             LJMP    MAIN
 
-                      11        ;4£©±È½Ï²ÉÓÃÈí¼þÑÓÊ±Óë¶¨Ê±Æ÷ÖÐ¶Ï¶¨Ê±µÄÉè¼Æ¹³Ì£¬Éè¼Æ½á¹û¡£
+0023                  11             ORG             0023H   ;´®ÐÐÖÐ¶ÏµÄÈë¿ÚµØÖ·
 
-                      12        ;5£©ÐÎÊ½£ºword ÎÄµµ
+0023 020118           12             LJMP    SINT    ;×ªÏò´®ÐÐ½Ó¿ÚÖÐ¶Ï·þÎñ³ÌÐò
 
-                      13        ;6£©½ØÖ¹Ê±¼ä£º5ÔÂ1ÈÕ
+0100                  13             ORG             0100H
 
-                      14     
+                      14                     
 
-                      15     ;(1)Ñ¡Ôñ¹¤×÷·½Ê½
+0100 7581EF           15     MAIN:   MOV             SP,#0EFH
 
-                      16     ;(2)¼ÆËãT1³õÖµ
+0103 7480             16                     MOV             A,#80H
 
-                      17     ;(3)Ô´³ÌÐò
+0105 75F000           17                     MOV             B,#00H
 
-0000                  18                     ORG             0000H
+0108 900140           18                     MOV             DPTR,#LED_Y    ;³õÊ¼»¯Ö¸Õë
 
-0000 020030           19                     LJMP    MAIN
+010B 759800           19                     MOV             SCON,#00H               ;´®ÐÐ½Ó¿Ú·½Ê½0
 
-000B                  20                     ORG             000BH   ;T0ÖÐ¶ÏÈë¿ÚµØÖ· 
+010E D2AC             20                     SETB    ES                              ;ÔÊÐí´®ÐÐ½Ó¿ÚÖÐ¶Ï
 
-000B 020048           21                     LJMP    PT0F    
+0110 D2AF             21                     SETB    EA                              ;
 
-0030                  22                     ORG             0030H   ;Ö÷³ÌÐòµÄÈë¿ÚµØÖ·
+0112 D290             22                     SETB    P1.0                    ;CLR=1,´ò¿ª²¢ÐÐÊä³ö¶Ë
 
-0030 7581EF           23     MAIN:   MOV             SP,#0EFH        ;¶ÑÕ»ÉèÔÚ0F0H~0FFH (ÄÚ²¿Ê¾Ý´æ´¢Çø)
+0114 F599             23                     MOV             SBUF,A
 
-0033 7F45             24                     MOV             R7,#69D
+0116 80FE             24                     SJMP    $
 
-0035 758901           25                     MOV             TMOD,#01H       ;T0Îª·½Ê½1 ¶¨Ê±Æ÷
+0118 3121             25     SINT:   ACALL   GETSEG
 
-0038 758A17           26                     MOV             TL0,#17H        
+011A 3133             26                     ACALL   DELAY
 
-003B 758CFC           27                     MOV             TH0,#0FCH
+011C C299             27                     CLR             TI                      ;Çå³·¢ËÍÖÐ¶ÏÎ»
 
-003E D2A9             28                     SETB    ET0                     ;ÔÊÐíT0ÖÐ¶Ï     
+011E F599             28                     MOV             SBUF,A
 
-0040 C2D5             29                     CLR             F0                      ;Çå0±êÖ¾Î»F0
+0120 32               29                     RETI
 
-0042 D2AF             30                     SETB    EA                      ;CPU¿ªÖÐ¶Ï
+0121 7F00             30     GETSEG:         MOV             R7,#00H
 
-0044 D28C             31                     SETB    TR0                     ;Æô¶¯T0
+0123 E5F0             31                             MOV             A,B
 
-0046 80FE             32     HERE:   SJMP    HERE            ;µÈ´T0ÖÐ¶Ï
+0125 93               32                             MOVC    A,@A+DPTR
 
-0048 758A17           33     PT0F:   MOV             TL0,#17H        
+0126 FF               33                             MOV             R7,A
 
-004B 758CFC           34                     MOV             TH0,#0FCH
+0127 05F0             34                             INC             B
 
-004E DF04             35                     DJNZ    R7,RT
+0129 E5F0             35                             MOV             A,B
 
-0050 7F45             36                     MOV             R7,#69D
+012B B40A03           36                             CJNE    A,#10,NEXT
 
-0052 B290             37                     CPL             P1.0
+012E 75F000           37                             MOV             B,#0
 
-0054 32               38     RT:             RETI    
+0131 EF               38     NEXT:           MOV             A,R7            
 
-                      39                     END
+0132 22               39                             RET
+
+                      40     ;Delay function
+
+0133 7F03             41     DELAY:  MOV     R7,#3
+
+0135 7EC8             42     DEL1:   MOV             R6,#200
+
+0137 7DF8             43     DEL2:   MOV             R5,#248
+
+0139 DDFE             44                     DJNZ    R5,$
+
+013B DEFA             45                     DJNZ    R6,DEL2
+
+013D DFF6             46                     DJNZ    R7,DEL1
+
+013F 22               47                     RET
+
+                      48                     
+
+0140 C0F9A4B0         49     LED_Y:  DB  0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H,80H,90H
+
+0144 999282F8                
+0148 8090                    
+                      50                     END
 
                              
 
-                             ;·½Ê½1 ²Ù×÷TIM0  ²éÑ¯·½Ê½³ÌÐò
-
-                                             ;ORG            0000H
-
-                                             ;LJMP   MAIN    
-
-                                             ;ORG            0030H
-
-                             ;MAIN:  MOV             SP,#0EFH
-
-                                             ;MOV            TMOD,#01H
-
-                                             ;MOV            TL0,#78H
-
-                                             ;SETB   TR0
-
-                             ;LOOP:  JBC             TF0,NEXT
-
-                                             ;SJMP   LOOP
-
-                             ;NEXT:  MOV             TH0,#0ECH
-
-                                             ;MOV            TL0,#78H
-
-                                             ;CPL            P1.0
-
-                                             ;SJMP   LOOP
-
-                                             ;END
-
-                             ;·½Ê½2 ²Ù×÷TIM0  Òç³öÖÐ¶ÏµÄ·½Ê½³ÌÐò
-
-                                             ;ORG            0000H
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     2
-
-                                             ;LJMP   MAIN
-
-                                             ;ORG            000BH   ;T0ÖÐ¶ÏÈë¿ÚµØÖ· 
-
-                                             ;LJMP   PT0F    
-
-                                             ;ORG            0030H   ;Ö÷³ÌÐòµÄÈë¿ÚµØÖ·
-
-                             ;MAIN:  MOV             SP,#0EFH        ;¶ÑÕ»ÉèÔÚ0F0H~0FFH (ÄÚ²¿Ê¾Ý´æ´¢Çø)
-
-                                             ;MOV            TMOD,#02H       ;T0Îª·½Ê½2 ¶¨Ê±Æ÷
-
-                                             ;MOV            TL0,#00H        
-
-                                             ;MOV            TH0,#00H
-
-                                             ;SETB   ET0                     ;ÔÊÐíT0ÖÐ¶Ï     
-
-                                             ;CLR            F0                      ;Çå0±êÖ¾Î»F0
-
-                                             ;SETB   EA                      ;CPU¿ªÖÐ¶Ï
-
-                                             ;SETB   TR0                     ;Æô¶¯T0
-
-                             ;HERE:  SJMP    HERE            ;µÈ´T0ÖÐ¶Ï
-
-                             ;PT0F:  CPL             P1.0            ;Êä³ö·½²¨
-
-                                             ;RETI
-
-                                             ;END
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/08/2018 21:29:52 PAGE     3
+A51 MACRO ASSEMBLER  TEST                                                                 04/16/2018 19:22:15 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -164,19 +120,22 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
+B. . . . . . . . .  D ADDR   00F0H   A   
+DEL1 . . . . . . .  C ADDR   0135H   A   
+DEL2 . . . . . . .  C ADDR   0137H   A   
+DELAY. . . . . . .  C ADDR   0133H   A   
 EA . . . . . . . .  B ADDR   00A8H.7 A   
-ET0. . . . . . . .  B ADDR   00A8H.1 A   
-F0 . . . . . . . .  B ADDR   00D0H.5 A   
-HERE . . . . . . .  C ADDR   0046H   A   
-MAIN . . . . . . .  C ADDR   0030H   A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+GETSEG . . . . . .  C ADDR   0121H   A   
+LED_Y. . . . . . .  C ADDR   0140H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+NEXT . . . . . . .  C ADDR   0131H   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
-PT0F . . . . . . .  C ADDR   0048H   A   
-RT . . . . . . . .  C ADDR   0054H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SINT . . . . . . .  C ADDR   0118H   A   
 SP . . . . . . . .  D ADDR   0081H   A   
-TH0. . . . . . . .  D ADDR   008CH   A   
-TL0. . . . . . . .  D ADDR   008AH   A   
-TMOD . . . . . . .  D ADDR   0089H   A   
-TR0. . . . . . . .  B ADDR   0088H.4 A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
 
 
 REGISTER BANK(S) USED: 0 

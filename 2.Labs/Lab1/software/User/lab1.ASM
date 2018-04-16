@@ -1,6 +1,6 @@
 ; FileName		:		lab1.ASM	
 ; Author		:		Twsa Liu
-; Date			:		2017-03-23
+; Date			:		2018-03-23
 ; Description	:		This is a lab ofm AT89C52RC.
 ;						The lab achieve function that include binkeying
 ;						,delay,light leds and switch using
@@ -13,9 +13,7 @@ INIT:	MOV 	P2,#0FFH
 		MOV		B,#00H	
 		MOV		DPTR,#LED_TB	;int led table ptr		
 LOOP:  	
-		;LCALL	TEST1
-		;LCALL	TEST2
-		;LCALL	TEST3
+		;LCALL	TEST3	
 		LCALL	TEST4		
 		AJMP	LOOP		
 
