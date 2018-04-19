@@ -1,0 +1,120 @@
+A51 MACRO ASSEMBLER  HELLO                                                                04/18/2018 15:45:04 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\hello.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\hello.ASM INCDIR(.\User) SET(SMALL) DEBUG PRINT(.\Listings\hello.l
+                      st) OBJECT(.\Objects\hello.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :       exc6.ASM        
+
+                       2     ; Author                :       Twsa Liu
+
+                       3     ; Date                  :       2018-04-18
+
+                       4     ; Description   :   The skeleton of PWM testing
+
+                       5     
+
+                       6     ;题目：利用定时器中断技术，在P1.0口输出脉冲周期为 2*（50+19)=138ms �
+                             ��方波。
+
+                       7     ;要求： 
+
+                       8        ;1）晶振频率自行设定；
+
+                       9        ;2）有详细的初值计算过程；
+
+                      10        ;3）绘制主程序流程图、中断服务子程序流程图；
+
+                      11        ;4）比较采用软件延时与定时器中断定时的设计过程，设计结果。
+
+                      12        ;5）形式：word 文档
+
+                      13        ;6）截止时间：5月1日
+
+                      14     
+
+                      15     ;(1)选择工作方式
+
+                      16     ;       选择方式1 定时器 定时1ms
+
+                      17     ;(2)计算T1初值
+
+                      18     ;       T0初值=2^16-1000*f/12=65536-1000*12/12=65534=FC17H
+
+                      19     ;(3)源程序
+
+0000                  20                     ORG             0000H
+
+0000 020030           21                     LJMP    MAIN
+
+000B                  22                     ORG             000BH   ;T0中断入口地址 
+
+000B 020048           23                     LJMP    PT0F    
+
+0030                  24                     ORG             0030H   ;主程序的入口地址
+
+0030 7581EF           25     MAIN:   MOV             SP,#0EFH        ;堆栈设在0F0H~0FFH (内部数据存储区)
+
+0033 7F45             26                     MOV             R7,#69D
+
+0035 758901           27                     MOV             TMOD,#01H       ;T0为方式1 定时器
+
+0038 758A17           28                     MOV             TL0,#17H        
+
+003B 758CFC           29                     MOV             TH0,#0FCH
+
+003E D2A9             30                     SETB    ET0                     ;允许T0中断 
+
+0040 C2D5             31                     CLR             F0                      ;清0标志位F0
+
+0042 D2AF             32                     SETB    EA                      ;CPU开中断
+
+0044 D28C             33                     SETB    TR0                     ;启动T0
+
+0046 80FE             34     HERE:   SJMP    HERE            ;等待T0中断
+
+0048 758A17           35     PT0F:   MOV             TL0,#17H        
+
+004B 758CFC           36                     MOV             TH0,#0FCH
+
+004E DF04             37                     DJNZ    R7,RT
+
+0050 7F45             38                     MOV             R7,#69D
+
+0052 B2A0             39                     CPL             P2.0
+
+0054 32               40     RT:             RETI    
+
+                      41                     END
+
+A51 MACRO ASSEMBLER  HELLO                                                                04/18/2018 15:45:04 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+HERE . . . . . . .  C ADDR   0046H   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PT0F . . . . . . .  C ADDR   0048H   A   
+RT . . . . . . . .  C ADDR   0054H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
