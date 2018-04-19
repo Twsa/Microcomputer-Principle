@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        04/18/2018  20:25:20  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/19/2018  21:10:12  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -19,7 +19,7 @@ LINK MAP OF MODULE:  .\Objects\Hex (TEST)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     00A9H     ABSOLUTE     
+            CODE    0000H     0121H     ABSOLUTE     
 
 
 
@@ -31,25 +31,40 @@ SYMBOL TABLE OF MODULE:  .\Objects\Hex (TEST)
   -------         MODULE        TEST
   D:00F0H         SYMBOL        B
   B:00A0H.0       SYMBOL        BUZ
-  C:0095H         SYMBOL        DUTY
-  C:0060H         SYMBOL        DUTY_OPER
+  C:00D9H         SYMBOL        DEL1
+  C:00E6H         SYMBOL        DEL11
+  C:00DBH         SYMBOL        DEL2
+  C:00E8H         SYMBOL        DEL21
+  C:00D7H         SYMBOL        DELAY
+  C:00E4H         SYMBOL        DELAY1
+  C:00F1H         SYMBOL        DUTY
+  C:0062H         SYMBOL        DUTY_OPER
   B:00A8H.7       SYMBOL        EA
   B:00A8H.1       SYMBOL        ET0
   B:00A8H.3       SYMBOL        ET1
-  C:004EH         SYMBOL        INIT
-  C:0038H         SYMBOL        INT0_CALL
-  C:0049H         SYMBOL        INT1_CALL
-  C:0074H         SYMBOL        INT_OPER
+  C:0051H         SYMBOL        INIT
+  C:003BH         SYMBOL        INT0_CALL
+  C:004CH         SYMBOL        INT1_CALL
+  C:0076H         SYMBOL        INT_OPER
   B:0090H.0       SYMBOL        LED
   C:0030H         SYMBOL        MAIN
+  C:00A7H         SYMBOL        MU1
+  C:0105H         SYMBOL        MUSIC1
   C:008AH         SYMBOL        NVIC
   D:0090H         SYMBOL        P1
   D:00A0H         SYMBOL        P2
+  C:00D0H         SYMBOL        PAUSE
+  C:00A0H         SYMBOL        PLAYER1
+  C:00C0H         SYMBOL        PLAYER2
   B:00B8H.4       SYMBOL        PS
   B:00B8H.1       SYMBOL        PT0
   B:00B8H.3       SYMBOL        PT1
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/19/2018  21:10:12  PAGE 2
+
+
   B:00B8H.0       SYMBOL        PX0
   B:00B8H.2       SYMBOL        PX1
+  C:0095H         SYMBOL        SELECT
   D:0081H         SYMBOL        SP
   N:0018H         SYMBOL        T01
   N:00FCH         SYMBOL        T02
@@ -59,54 +74,57 @@ SYMBOL TABLE OF MODULE:  .\Objects\Hex (TEST)
   D:008DH         SYMBOL        TH1
   D:008AH         SYMBOL        TL0
   D:008BH         SYMBOL        TL1
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/18/2018  20:25:20  PAGE 2
-
-
   D:0089H         SYMBOL        TMOD
   B:0088H.4       SYMBOL        TR0
   B:0088H.6       SYMBOL        TR1
+  C:0095H         SYMBOL        WAIT0
+  C:00B7H         SYMBOL        WAIT00
+  C:009AH         SYMBOL        WAIT1
+  C:00C7H         SYMBOL        WAIT10
   C:0000H         LINE#         10
   C:000BH         LINE#         17
   C:001BH         LINE#         19
   C:0030H         LINE#         23
   C:0033H         LINE#         24
   C:0036H         LINE#         25
-  C:0038H         LINE#         27
-  C:003AH         LINE#         28
-  C:003CH         LINE#         29
-  C:003EH         LINE#         31
+  C:0039H         LINE#         26
+  C:003BH         LINE#         28
+  C:003DH         LINE#         29
+  C:003FH         LINE#         30
   C:0041H         LINE#         32
   C:0044H         LINE#         33
-  C:0046H         LINE#         34
-  C:0048H         LINE#         35
-  C:0049H         LINE#         37
-  C:004BH         LINE#         38
-  C:004DH         LINE#         39
-  C:004EH         LINE#         41
-  C:0051H         LINE#         44
-  C:0053H         LINE#         45
-  C:0056H         LINE#         46
-  C:0058H         LINE#         47
-  C:005BH         LINE#         48
-  C:005DH         LINE#         49
-  C:005FH         LINE#         50
-  C:0060H         LINE#         67
-  C:0063H         LINE#         72
-  C:0064H         LINE#         73
-  C:0067H         LINE#         74
-  C:0068H         LINE#         75
-  C:0069H         LINE#         76
-  C:006BH         LINE#         77
-  C:006CH         LINE#         78
-  C:006DH         LINE#         79
-  C:006FH         LINE#         80
-  C:0071H         LINE#         81
-  C:0072H         LINE#         82
-  C:0073H         LINE#         84
-  C:0074H         LINE#         87
-  C:0077H         LINE#         88
-  C:007AH         LINE#         89
-  C:007DH         LINE#         91
+  C:0047H         LINE#         34
+  C:0049H         LINE#         35
+  C:004BH         LINE#         36
+  C:004CH         LINE#         38
+  C:004EH         LINE#         39
+  C:0050H         LINE#         40
+  C:0051H         LINE#         42
+  C:0054H         LINE#         43
+  C:0057H         LINE#         46
+  C:0059H         LINE#         47
+  C:005CH         LINE#         48
+  C:005EH         LINE#         49
+  C:0061H         LINE#         50
+  C:0062H         LINE#         67
+  C:0065H         LINE#         72
+  C:0066H         LINE#         73
+  C:0069H         LINE#         74
+  C:006AH         LINE#         75
+  C:006BH         LINE#         76
+  C:006DH         LINE#         77
+  C:006EH         LINE#         78
+  C:006FH         LINE#         79
+  C:0071H         LINE#         80
+  C:0073H         LINE#         81
+  C:0074H         LINE#         82
+  C:0075H         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/19/2018  21:10:12  PAGE 3
+
+
+  C:0076H         LINE#         87
+  C:0079H         LINE#         88
+  C:007CH         LINE#         89
   C:007FH         LINE#         92
   C:0081H         LINE#         93
   C:0083H         LINE#         94
@@ -119,10 +137,56 @@ SYMBOL TABLE OF MODULE:  .\Objects\Hex (TEST)
   C:0090H         LINE#         103
   C:0092H         LINE#         104
   C:0094H         LINE#         105
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/18/2018  20:25:20  PAGE 3
+  C:0095H         LINE#         108
+  C:0098H         LINE#         109
+  C:009AH         LINE#         110
+  C:009DH         LINE#         111
+  C:009FH         LINE#         112
+  C:00A0H         LINE#         114
+  C:00A2H         LINE#         115
+  C:00A4H         LINE#         116
+  C:00A7H         LINE#         118
+  C:00A8H         LINE#         119
+  C:00AAH         LINE#         120
+  C:00ABH         LINE#         121
+  C:00AEH         LINE#         122
+  C:00B0H         LINE#         123
+  C:00B2H         LINE#         124
+  C:00B3H         LINE#         125
+  C:00B4H         LINE#         126
+  C:00B7H         LINE#         127
+  C:00BAH         LINE#         128
+  C:00BCH         LINE#         129
+  C:00BEH         LINE#         130
+  C:00C0H         LINE#         132
+  C:00C2H         LINE#         133
+  C:00C4H         LINE#         134
+  C:00C7H         LINE#         135
+  C:00CAH         LINE#         136
+  C:00CCH         LINE#         137
+  C:00CEH         LINE#         138
+  C:00D0H         LINE#         139
+  C:00D2H         LINE#         140
+  C:00D4H         LINE#         141
+  C:00D6H         LINE#         142
+  C:00D7H         LINE#         144
+  C:00D9H         LINE#         145
+  C:00DBH         LINE#         146
+  C:00DDH         LINE#         147
+  C:00DFH         LINE#         148
+  C:00E1H         LINE#         149
+  C:00E3H         LINE#         150
+  C:00E4H         LINE#         152
+  C:00E6H         LINE#         153
+  C:00E8H         LINE#         154
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/19/2018  21:10:12  PAGE 4
 
 
+  C:00EAH         LINE#         155
+  C:00ECH         LINE#         156
+  C:00EEH         LINE#         157
+  C:00F0H         LINE#         158
   -------         ENDMOD        TEST
 
-Program Size: data=8.0 xdata=0 code=169
+Program Size: data=8.0 xdata=0 code=289
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
