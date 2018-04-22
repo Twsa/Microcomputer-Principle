@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 04/19/2018 21:10:12 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -41,11 +41,11 @@ LOC  OBJ            LINE     SOURCE
 
 000B                  16             ORG             000BH
 
-000B 02003B           17             LJMP    INT0_CALL
+000B 020038           17             LJMP    INT0_CALL
 
-001B                  18             ORG             001BH
+                      18             ;ORG            001BH
 
-001B 02004C           19             LJMP    INT1_CALL
+                      19             ;LJMP   INT1_CALL
 
 0030                  20             ORG             0030H
 
@@ -53,310 +53,93 @@ LOC  OBJ            LINE     SOURCE
 
 0030                  22     MAIN:   
 
-0030 120051           23                     LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
+0030 120041           23                     LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
 
-0033 120076           24                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜
+0033 120050           24                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜
 
-0036 120095           25                     LCALL   SELECT
+0036 80FE             25                     SJMP    $                               ;µ»¥÷–∂œ
 
-0039 80FE             26                     SJMP    $                               ;µ»¥÷–∂œ
+                      26     
 
-                      27     
+0038 B2A0             27     INT0_CALL:      CPL             BUZ                     
 
-003B 8A8B             28     INT0_CALL:      MOV             TL1,R2  
+003A 758A18           28                             MOV             TL0,#T01        
 
-003D 8B8D             29                             MOV             TH1,R3
+003D 758CFC           29                             MOV             TH0,#T02                
 
-003F B2A0             30                             CPL             BUZ      
+0040 32               30                             RETI            
 
-                      31                             
+                      31     
 
-0041 758A18           32                             MOV             TL0,#T01        
+                      32     ;Initialization
 
-0044 758CFC           33                             MOV             TH0,#T02
+0041 7590FF           33     INIT:   MOV             P1,#0FFH
 
-0047 D2AB             34                             SETB    ET1                     ;ø™∆ÙT1÷–∂œ
+0044 75A0FF           34                     MOV             P2,#0FFH
 
-0049 C28F             35                             CLR             TF1                     
+  00A0                35                     BUZ             EQU     P2.0
 
-004B 32               36                             RETI            
+  0090                36                     LED             EQU     P1.0
 
-                      37                             
+  0091                37                     SW1             EQU     P1.1
 
-004C C2AB             38     INT1_CALL:      CLR             ET1                     ;πÿ±’T1÷–∂œ     
+  0018                38                     T01             EQU     18H
 
-004E B2A0             39                             CPL             BUZ     
+  00FC                39                     T02             EQU     0FCH
 
-0050 32               40                             RETI
+0047 7400             40                     MOV             A,#00H  
 
-                      41     ;Initialization
+0049 75F000           41                     MOV             B,#00H
 
-0051 7590FF           42     INIT:   MOV             P1,#0FFH
+004C 7581EF           42                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
 
-0054 75A0FF           43                     MOV             P2,#0FFH
+004F 22               43                     RET
 
-  00A0                44                     BUZ             EQU     P2.0
+                      44     ;Interrupt operation control
 
-  0090                45                     LED             EQU     P1.0
+0050                  45     INT_OPER:       
 
-0057 7400             46                     MOV             A,#00H  
+0050 758901           46                             MOV             TMOD,#01H       ;T0Œ™∑Ω Ω1 ∂® ±∆˜
 
-0059 75F000           47                     MOV             B,#00H
+0053 758A18           47                             MOV             TL0,#T01        
 
-005C 7D00             48                     MOV             R5,#00H
+0056 758CFC           48                             MOV             TH0,#T02
 
-005E 7581EF           49                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
+                      49                             
 
-0061 22               50                     RET
+0059 D2A9             50                             SETB    ET0                     ;‘ –ÌT0÷–∂œ     
 
-                      51     ;Set duty ratio         …Ë÷√’ºø’±» ≤¢Œ™ T0 T1∏≥≥ı÷µ
+005B C28D             51                             CLR             TF0                     ;«Â0±Í÷æŒªTF0
 
-                      52                             ;…Ë÷√’ºø’±» ∫Õ …Ë÷√’ºø’±»∂‘”¶µƒT1µƒ≥ı÷µ
+005D 1164             52                             ACALL   NVIC            ;…Ë÷√÷–∂œ”≈œ»º∂
 
-                      53                             ;duty=10        0XFF9C
+005F D2AF             53                             SETB    EA                      ;CPUø™÷–∂œ
 
-                      54                             ;duty=20        0XFF38
+0061 D28C             54                             SETB    TR0     
 
-                      55                             ;duty=30        0XFED4
+0063 22               55                             RET
 
-                      56                             ;duty=40        0XFE70
+                      56                             
 
-A51 MACRO ASSEMBLER  TEST                                                                 04/19/2018 21:10:12 PAGE     2
+A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     2
 
-                      57                             ;duty=50        0XFE0C
+                      57     ;Set the priority of interrupt  
 
-                      58                             ;duty=60        0XFDA8
+0064 C2B8             58     NVIC:           CLR             PX0     
 
-                      59                             ;duty=70        0XFD44
+0066 C2B9             59                             CLR             PT0
 
-                      60                             ;duty=80        0XFCE0
+0068 C2BA             60                             CLR             PX1                             
 
-                      61                             ;duty=90        0XFC7C
+006A C2BB             61                             CLR             PT1
 
-                      62                             ;duty=100       0XFC18
+006C C2BC             62                             CLR             PS
 
-                      63                             ;T11            EQU     0E0H    
+006E 22               63                             RET                     
 
-                      64                             ;T12            EQU     0B1H
+                      64                             END
 
-0062                  65     DUTY_OPER:
-
-                      66                             ;…Ë÷√÷‹∆⁄
-
-0062 9000F1           67                             MOV             DPTR,#DUTY              ;int duty table ptr
-
-  0018                68                             T01             EQU     18H
-
-  00FC                69                             T02             EQU     0FCH
-
-                      70                             
-
-                      71                             ;¥”¡–±Ì÷–—°‘Ò’ºø’±»∂‘”¶µƒT1≥ı÷µ
-
-0065 EC               72                             MOV             A,R4    
-
-0066 75F000           73                             MOV             B,#00H
-
-0069 14               74                             DEC             A
-
-006A 23               75                             RL              A
-
-006B F5F0             76                             MOV             B,A
-
-006D 93               77                             MOVC    A,@A+DPTR
-
-006E FB               78                             MOV             R3,A
-
-006F E5F0             79                             MOV             A,B
-
-0071 2401             80                             ADD             A,#0X01 
-
-0073 93               81                             MOVC    A,@A+DPTR       
-
-0074 FA               82                             MOV             R2,A
-
-                      83                             
-
-0075 22               84                             RET
-
-                      85     ;Interrupt operation control
-
-0076                  86     INT_OPER:       
-
-0076 758911           87                             MOV             TMOD,#11H       ;T0Œ™∑Ω Ω1 ∂® ±∆˜
-
-0079 758A18           88                             MOV             TL0,#T01        
-
-007C 758CFC           89                             MOV             TH0,#T02
-
-                      90                             
-
-                      91                             ;SETB   ET0                     ;‘ –ÌT0÷–∂œ     
-
-007F C28D             92                             CLR             TF0                     ;«Â0±Í÷æŒªTF0
-
-0081 118A             93                             ACALL   NVIC            ;…Ë÷√÷–∂œ”≈œ»º∂
-
-0083 D2AF             94                             SETB    EA                      ;CPUø™÷–∂œ
-
-0085 D28E             95                             SETB    TR1
-
-0087 D28C             96                             SETB    TR0     
-
-0089 22               97                             RET
-
-                      98                             
-
-                      99     ;Set the priority of interrupt  
-
-008A C2B8            100     NVIC:           CLR             PX0     
-
-008C C2B9            101                             CLR             PT0
-
-008E C2BA            102                             CLR             PX1                             
-
-0090 C2BB            103                             CLR             PT1
-
-0092 C2BC            104                             CLR             PS
-
-0094 22              105                             RET                     
-
-                     106     ;Select the song you like to play
-
-0095                 107     SELECT:         
-
-0095 209102          108     WAIT0:          JB              P1.1,WAIT1
-
-0098 11A0            109                             ACALL   PLAYER1
-
-009A 2092F8          110     WAIT1:          JB              P1.2,WAIT0
-
-009D 11C0            111                             ACALL   PLAYER2
-
-009F 22              112                             RET
-
-                     113     ;Play music you have selected
-
-00A0 7400            114     PLAYER1:        MOV             A,#00H
-
-00A2 7800            115                             MOV             R0,#00H
-
-00A4 900105          116                             MOV             DPTR,#MUSIC1            ;music1 table ptr
-
-                     117                             
-
-00A7 93              118     MU1:            MOVC    A,@A+DPTR
-
-00A8 D2A9            119                             SETB    ET0     
-
-00AA FC              120                             MOV             R4,A                    ;…Ë÷√’ºø’±»
-
-00AB 120062          121                             LCALL   DUTY_OPER
-
-00AE 11D7            122                             ACALL   DELAY                   ;BUZ time delay
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/19/2018 21:10:12 PAGE     3
-
-00B0 11D0            123                             ACALL   PAUSE   
-
-00B2 08              124                             INC             R0
-
-00B3 E8              125                             MOV             A,R0
-
-00B4 B41CF0          126                             CJNE    A,#0X1C,MU1
-
-00B7 3091E6          127     WAIT00:         JNB             P1.1,PLAYER1
-
-00BA C2A9            128                             CLR             ET0
-
-00BC D2A0            129                             SETB    BUZ
-
-00BE 0195            130                             AJMP    SELECT
-
-                     131     ;Play music you have selected
-
-00C0 D2A9            132     PLAYER2:        SETB    ET0
-
-00C2 7C05            133                             MOV             R4,#5D                  ;…Ë÷√’ºø’±»     
-
-00C4 120062          134                             LCALL   DUTY_OPER
-
-00C7 3092FD          135     WAIT10:         JNB             P1.2,WAIT10
-
-00CA C2A9            136                             CLR             ET0
-
-00CC D2A0            137                             SETB    BUZ
-
-00CE 0195            138                             AJMP    SELECT  
-
-00D0 D2A0            139     PAUSE:          SETB    BUZ
-
-00D2 C2A9            140                             CLR             ET0
-
-00D4 11E4            141                             ACALL   DELAY1  
-
-00D6 22              142                             RET
-
-                     143     ;Delay Function 1s delay
-
-00D7 7F04            144     DELAY:  MOV     R7,#4
-
-00D9 7EC8            145     DEL1:   MOV             R6,#200         
-
-00DB 7DF8            146     DEL2:   MOV             R5,#248
-
-00DD DDFE            147                     DJNZ    R5,$
-
-00DF DEFA            148                     DJNZ    R6,DEL2
-
-00E1 DFF6            149                     DJNZ    R7,DEL1
-
-00E3 22              150                     RET
-
-                     151     ;Delay Function PAUSE
-
-00E4 7F04            152     DELAY1: MOV     R7,#4
-
-00E6 7EC8            153     DEL11:  MOV             R6,#200         
-
-00E8 7DF8            154     DEL21:  MOV             R5,#248
-
-00EA DDFE            155                     DJNZ    R5,$
-
-00EC DEFA            156                     DJNZ    R6,DEL21
-
-00EE DFF6            157                     DJNZ    R7,DEL11
-
-00F0 22              158                     RET
-
-00F1 FF9CFF38        159     DUTY:   DB              0XFF,0X9C,0XFF,0X38,0XFE,0XD4,0XFE,0X70,0XFE,0X0C,                 
-                                          0XFD,0XA8,0XFD,0X44,0XFC,0XE0,0XFC,0X7C,0XFC,0X18
-
-00F5 FED4FE70                
-00F9 FE0CFDA8                
-00FD FD44FCE0                
-0101 FC7CFC18                
-                     160     
-
-0105 01010505        161     MUSIC1: DB              0X01,0X01,0X05,0X05,0X06,0X06,0X05,                             0X0
-                             4,0X04,0X03,0X03,0X02,0X02,0X01,                             0X05,0X05,0X04,0X04,0X03,0X03,
-                             0X02,                             0X05,0X05,0X04,0X04,0X03,0X03,0X02
-
-0109 06060504                
-010D 04030302                
-0111 02010505                
-0115 04040303                
-0119 02050504                
-011D 04030302                
-                     162     
-
-                     163     
-
-                     164     
-
-                     165                             END
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/19/2018 21:10:12 PAGE     4
+A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -366,53 +149,30 @@ N A M E             T Y P E  V A L U E   ATTRIBUTES
 
 B. . . . . . . . .  D ADDR   00F0H   A   
 BUZ. . . . . . . .  B ADDR   00A0H.0 A   
-DEL1 . . . . . . .  C ADDR   00D9H   A   
-DEL11. . . . . . .  C ADDR   00E6H   A   
-DEL2 . . . . . . .  C ADDR   00DBH   A   
-DEL21. . . . . . .  C ADDR   00E8H   A   
-DELAY. . . . . . .  C ADDR   00D7H   A   
-DELAY1 . . . . . .  C ADDR   00E4H   A   
-DUTY . . . . . . .  C ADDR   00F1H   A   
-DUTY_OPER. . . . .  C ADDR   0062H   A   
 EA . . . . . . . .  B ADDR   00A8H.7 A   
 ET0. . . . . . . .  B ADDR   00A8H.1 A   
-ET1. . . . . . . .  B ADDR   00A8H.3 A   
-INIT . . . . . . .  C ADDR   0051H   A   
-INT0_CALL. . . . .  C ADDR   003BH   A   
-INT1_CALL. . . . .  C ADDR   004CH   A   
-INT_OPER . . . . .  C ADDR   0076H   A   
+INIT . . . . . . .  C ADDR   0041H   A   
+INT0_CALL. . . . .  C ADDR   0038H   A   
+INT_OPER . . . . .  C ADDR   0050H   A   
 LED. . . . . . . .  B ADDR   0090H.0 A   
 MAIN . . . . . . .  C ADDR   0030H   A   
-MU1. . . . . . . .  C ADDR   00A7H   A   
-MUSIC1 . . . . . .  C ADDR   0105H   A   
-NVIC . . . . . . .  C ADDR   008AH   A   
+NVIC . . . . . . .  C ADDR   0064H   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
 P2 . . . . . . . .  D ADDR   00A0H   A   
-PAUSE. . . . . . .  C ADDR   00D0H   A   
-PLAYER1. . . . . .  C ADDR   00A0H   A   
-PLAYER2. . . . . .  C ADDR   00C0H   A   
 PS . . . . . . . .  B ADDR   00B8H.4 A   
 PT0. . . . . . . .  B ADDR   00B8H.1 A   
 PT1. . . . . . . .  B ADDR   00B8H.3 A   
 PX0. . . . . . . .  B ADDR   00B8H.0 A   
 PX1. . . . . . . .  B ADDR   00B8H.2 A   
-SELECT . . . . . .  C ADDR   0095H   A   
 SP . . . . . . . .  D ADDR   0081H   A   
+SW1. . . . . . . .  B ADDR   0090H.1 A   
 T01. . . . . . . .  N NUMB   0018H   A   
 T02. . . . . . . .  N NUMB   00FCH   A   
 TF0. . . . . . . .  B ADDR   0088H.5 A   
-TF1. . . . . . . .  B ADDR   0088H.7 A   
 TH0. . . . . . . .  D ADDR   008CH   A   
-TH1. . . . . . . .  D ADDR   008DH   A   
 TL0. . . . . . . .  D ADDR   008AH   A   
-TL1. . . . . . . .  D ADDR   008BH   A   
 TMOD . . . . . . .  D ADDR   0089H   A   
 TR0. . . . . . . .  B ADDR   0088H.4 A   
-TR1. . . . . . . .  B ADDR   0088H.6 A   
-WAIT0. . . . . . .  C ADDR   0095H   A   
-WAIT00 . . . . . .  C ADDR   00B7H   A   
-WAIT1. . . . . . .  C ADDR   009AH   A   
-WAIT10 . . . . . .  C ADDR   00C7H   A   
 
 
 REGISTER BANK(S) USED: 0 

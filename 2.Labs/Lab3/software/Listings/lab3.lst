@@ -1,0 +1,237 @@
+A51 MACRO ASSEMBLER  LAB3                                                                 04/21/2018 16:53:20 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\lab3.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\lab3.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab3.lst) OBJECT(.\Obje
+                      cts\lab3.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :               lab3.ASM        
+
+                       2     ; Author                :               Twsa Liu
+
+                       3     ; Date                  :               2018-04-20
+
+                       4     ; Description   :               This is a lab of AT89C52RC.
+
+                       5      
+
+                       6     ;Main function
+
+0000                   7             ORG             0000H
+
+0000 020030            8             LJMP    MAIN
+
+                       9             
+
+0003                  10             ORG             0003H
+
+0003 020043           11             LJMP    INT0_CALL
+
+                      12             ;ORG            0013H
+
+                      13             ;LJMP   INT1_CALL
+
+000B                  14             ORG             000BH
+
+000B 020038           15             LJMP    PT0_CALL
+
+                      16             ;ORG            001BH
+
+                      17             ;LJMP   PT1_CALL
+
+                      18             
+
+0030                  19             ORG             0030H
+
+0030 120068           20     MAIN:   LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
+
+0033 12007A           21                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜   
+
+0036 80FE             22                     SJMP    $                               ;µ»¥÷–∂œ
+
+                      23                             
+
+0038 20B202           24     PT0_CALL:       JB              P3.2,NEXT
+
+003B 8002             25                             SJMP    NEXT1
+
+003D 7C64             26     NEXT:           MOV             R4,#TIME
+
+003F 120047           27     NEXT1:          LCALL   BINK
+
+0042 32               28                             RETI
+
+0043 120060           29     INT0_CALL:      LCALL   RATIODUBLE
+
+0046 32               30                             RETI
+
+                      31                             
+
+0047 758AF0           32     BINK:           MOV             TL0,#T01        
+
+004A 758CD8           33                             MOV             TH0,#T02                        ;10MS∂® ± ±º‰
+
+004D DF10             34                             DJNZ    R7,RT                           
+
+004F 8C30             35                             MOV             30H,R4                          
+
+0051 AF30             36                             MOV             R7,30H                          ;∂ØÃ¨…Ë÷√∑≠◊™ ±º‰
+
+0053 8B90             37                             MOV     P1,R3
+
+0055 B2A7             38                             CPL             P2.7
+
+0057 EB               39                             MOV             A,R3
+
+0058 23               40                             RL              A
+
+0059 FB               41                             MOV             R3,A
+
+005A B4FE02           42                             CJNE    A,#0XFE,RT
+
+005D 7BFE             43                             MOV             R3,#0XFE
+
+005F 22               44     RT:                     RET
+
+0060 7464             45     RATIODUBLE:     MOV             A,#TIME
+
+0062 75F002           46                             MOV             B,#2D
+
+0065 84               47                             DIV             AB
+
+0066 FC               48                             MOV             R4,A            ; ±º‰œﬁ÷∆ºı∞Î£¨ÀŸ∂»Ã·…“ª±∂
+
+0067 22               49                             RET
+
+                      50     ;Initialization
+
+0068                  51     INIT:   
+
+  0064                52                     TIME    EQU     100D
+
+  00F0                53                     T01             EQU     0F0H
+
+  00D8                54                     T02             EQU 0D8H
+
+0068 7590FF           55                     MOV             P1,#0FFH
+
+                      56     
+
+006B 7400             57                     MOV             A,#00H  
+
+A51 MACRO ASSEMBLER  LAB3                                                                 04/21/2018 16:53:20 PAGE     2
+
+006D 75F000           58                     MOV             B,#00H
+
+0070 7F00             59                     MOV             R7,#00H
+
+0072 7C00             60                     MOV             R4,#00H
+
+0074 7BFE             61                     MOV             R3,#0FEH
+
+0076 7581EF           62                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
+
+0079 22               63                     RET
+
+                      64     ;Interrupt operation control
+
+007A 758901           65     INT_OPER:       MOV             TMOD,#01H       ;T0Œ™∑Ω Ω1 ∂® ±∆˜
+
+007D 758AF0           66                             MOV             TL0,#T01        
+
+0080 758CD8           67                             MOV             TH0,#T02        ;10MS
+
+0083 D288             68                             SETB    IT0                     ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™œ¬Ωµ—ÿ¥•∑¢
+
+                      69                             ;SETB   IT1                     ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™œ¬Ωµ—ÿ¥•∑¢
+
+0085 D2A8             70                             SETB    EX0                     ;Õ‚≤ø÷–∂œ0ø™÷–∂œ
+
+                      71                             ;SETB   EX1                     ;Õ‚≤ø÷–∂œ1ø™÷–∂œ        
+
+0087 D2A9             72                             SETB    ET0                     ;‘ –ÌT0÷–∂œ     
+
+0089 C28D             73                             CLR             TF0                     ;«Â0±Í÷æŒªTF0
+
+                      74                             ;CLR            TF1                     ;«Â0±Í÷æŒªTF1
+
+008B 1192             75                             ACALL   NVIC            ;…Ë÷√÷–∂œ”≈œ»º∂
+
+008D D2AF             76                             SETB    EA                      ;CPUø™÷–∂œ
+
+008F D28C             77                             SETB    TR0     
+
+                      78                             ;SETB   TR1
+
+0091 22               79                             RET
+
+                      80                             
+
+                      81     ;Set the priority of interrupt  
+
+0092 C2B8             82     NVIC:           CLR             PX0     
+
+0094 C2B9             83                             CLR             PT0
+
+0096 C2BA             84                             CLR             PX1                             
+
+0098 C2BB             85                             CLR             PT1
+
+009A C2BC             86                             CLR             PS
+
+009C 22               87                             RET             
+
+                      88                             END
+
+                                     
+
+A51 MACRO ASSEMBLER  LAB3                                                                 04/21/2018 16:53:20 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+BINK . . . . . . .  C ADDR   0047H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+INIT . . . . . . .  C ADDR   0068H   A   
+INT0_CALL. . . . .  C ADDR   0043H   A   
+INT_OPER . . . . .  C ADDR   007AH   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+NEXT . . . . . . .  C ADDR   003DH   A   
+NEXT1. . . . . . .  C ADDR   003FH   A   
+NVIC . . . . . . .  C ADDR   0092H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PS . . . . . . . .  B ADDR   00B8H.4 A   
+PT0. . . . . . . .  B ADDR   00B8H.1 A   
+PT0_CALL . . . . .  C ADDR   0038H   A   
+PT1. . . . . . . .  B ADDR   00B8H.3 A   
+PX0. . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . .  B ADDR   00B8H.2 A   
+RATIODUBLE . . . .  C ADDR   0060H   A   
+RT . . . . . . . .  C ADDR   005FH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+T01. . . . . . . .  N NUMB   00F0H   A   
+T02. . . . . . . .  N NUMB   00D8H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TIME . . . . . . .  N NUMB   0064H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
