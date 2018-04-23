@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB2                                                                 04/12/2018 11:34:51 PAGE     1
+A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -31,181 +31,139 @@ LOC  OBJ            LINE     SOURCE
 
 0003                  11             ORG             0003H
 
-0003 020038           12             LJMP    INT0_CALL
+0003 020039           12             LJMP    INT0_CALL
 
 0013                  13             ORG             0013H
 
 0013 02003C           14             LJMP    INT1_CALL
 
-0030                  15             ORG             0030H
+                      15             
 
-0030                  16     MAIN:   
+0030                  16             ORG             0030H
 
-0030 120040           17                     LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
+0030 12003F           17     MAIN:   LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
 
-0033 120053           18                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜   
+0033 12004F           18                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜
 
-0036 80FE             19                     SJMP    $                               ;µ»¥÷–∂œ
+0036 120067           19                     LCALL   BLINK                   ;¡˜ÀÆµ∆≤Ÿ◊˜                     
 
-                      20                             
+0039 B220             20     INT0_CALL:      CPL     20H
 
-0038 120098           21     INT0_CALL:      LCALL   TEST2
+003B 32               21                             RETI
 
-003B 32               22                             RETI
+003C B221             22     INT1_CALL:      CPL     21H
 
-003C 12006E           23     INT1_CALL:      LCALL   TEST1
+003E 32               23                             RETI
 
-003F 32               24                             RETI
+                      24     ;Initialization
 
-                      25     ;Initialization
+003F 7590FF           25     INIT:   MOV             P1,#0FFH
 
-0040 7590FF           26     INIT:   MOV             P1,#0FFH
+0042 7400             26                     MOV             A,#00H                  
 
-0043 7400             27                     MOV             A,#00H                  
+0044 7530FE           27                     MOV             30H,#0XFE
 
-0045 75F000           28                     MOV             B,#00H  
+0047 C220             28                     CLR             20H                             ;«Â≥Õ‚≤ø÷–∂œ0   flag
 
-0048 9000BE           29                     MOV             DPTR,#LED_TB    ;int led table ptr
+0049 C221             29                     CLR             21H                             ;«Â≥Õ‚≤ø÷–∂œ1   flag
 
-004B 787F             30                     MOV             R0,#7FH                 ;…Ë÷√P1ø⁄ ‰≥ˆ≥ı÷µ£¨ π∆‰—≠ª∑◊Û“∆1Œª∫
-                             Ûº¥µ„¡¡L0
+004B 7581EF           30                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
 
-004D 7581EF           31                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
+004E 22               31                     RET
 
-0050 7CFF             32                     MOV             R4,#0FFH                        ;º«¬ºµ±«∞LEDµƒ◊¥Ã¨
+                      32     ;Interrupt operation control
 
-0052 22               33                     RET
+004F D288             33     INT_OPER:       SETB    IT0                             ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™œ¬Ωµ—ÿ¥•∑¢
 
-                      34     ;Interrupt operation control
+0051 D28A             34                             SETB    IT1                             ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™œ¬Ωµ—ÿ¥•∑¢
 
-0053 D288             35     INT_OPER:       SETB    IT0                             ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™œ¬Ωµ—ÿ¥•∑¢
+0053 D2A8             35                             SETB    EX0                             ;Õ‚≤ø÷–∂œ0ø™÷–∂œ
 
-0055 C28A             36                             CLR     IT1                             ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™œ¬Ωµ—ÿ¥•∑¢
+0055 D2AA             36                             SETB    EX1                             ;Õ‚≤ø÷–∂œ1ø™÷–∂œ
 
-0057 D2A8             37                             SETB    EX0                             ;Õ‚≤ø÷–∂œ0ø™÷–∂œ
+0057 115C             37                             ACALL   NVIC                    ;…Ë÷√÷–∂œ”≈œ»º∂
 
-0059 D2AA             38                             SETB    EX1                             ;Õ‚≤ø÷–∂œ1ø™÷–∂œ
+0059 D2AF             38                             SETB    EA                              ;CPUø™÷–∂œ
 
-005B 1160             39                             ACALL   NVIC                    ;…Ë÷√÷–∂œ”≈œ»º∂
+005B 22               39                             RET
 
-005D D2AF             40                             SETB    EA                              ;CPUø™÷–∂œ
+                      40                             
 
-005F 22               41                             RET
+                      41     ;Set the priority of interrupt  
 
-                      42                             
+005C C2B8             42     NVIC:           CLR             PX0                             ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™µÕ”≈œ»º∂
 
-                      43     ;Set the priority of interrupt  
+005E C2B9             43                             CLR             PT0
 
-0060 D2B8             44     NVIC:           SETB    PX0                             ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™µÕ”≈œ»º∂
+0060 D2BA             44                             SETB    PX1                             ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™∏ﬂ”≈œ»º∂
 
-0062 D2BA             45                             SETB    PX1                             ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™∏ﬂ”≈œ»º∂
+0062 C2BB             45                             CLR             PT1
 
 0064 C2BC             46                             CLR             PS
 
-0066 C2BB             47                             CLR             PT1
+0066 22               47                             RET
 
-0068 C2B9             48                             CLR             PT0
+0067 E530             48     BLINK:  MOV             A,30H
 
-006A 22               49                             RET
+0069 F590             49                     MOV     P1,A
 
-                      50                             
+006B 202111           50                     JB              21H,STOP
 
-                      51     ;Binkly and contain operation of stopping
+006E 202019           51                     JB              20H,PAUSE
 
-006B 20B3FD           52     WAIT1:  JB              P3.3,WAIT1
+0071 23               52                     RL              A
 
-006E 20B3FA           53     TEST1:  JB              P3.3,WAIT1
+0072 F530             53                     MOV             30H,A   
 
-0071 93               54     AGAIN1: MOVC    A,@A+DPTR
+0074 120094           54                     LCALL   DELAY
 
-0072 FC               55                     MOV             R4,A
+0077 B4FE03           55                     CJNE    A,#0XFE,NEXT
 
-A51 MACRO ASSEMBLER  LAB2                                                                 04/12/2018 11:34:51 PAGE     2
+007A 7530FE           56                     MOV             30H,#0XFE       
 
-0073 F590             56                     MOV     P1,A
+A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     2
 
-0075 20B310           57                     JB              P3.3,STOP
+007D 80E8             57     NEXT:   SJMP    BLINK
 
-0078 1200B1           58                     LCALL   DELAY
+007F 7590FF           58     STOP:   MOV             P1,#0XFF
 
-007B E5F0             59                     MOV             A,B
+0082 2021FA           59                     JB              21H,STOP
 
-007D 05F0             60                     INC             B
+0085 7530FE           60                     MOV             30H,#0XFE
 
-007F B40704           61                     CJNE    A,#0X07,NEXT1
+0088 80DD             61                     SJMP    BLINK
 
-0082 75F000           62                     MOV             B,#0X00         ;rest accumator A to zero
+008A F590             62     PAUSE:  MOV             P1,A
 
-0085 22               63                     RET
+008C 2021F0           63                     JB              21H,STOP
 
-0086 80E9             64     NEXT1:  SJMP    AGAIN1
+008F 2020F8           64                     JB              20H,PAUSE
 
-0088 7400             65     STOP:   MOV             A,#00H
+0092 80D3             65                     SJMP    BLINK
 
-008A 75F000           66                     MOV             B,#00H
+                      66                     
 
-008D 7590FF           67                     MOV             P1,#0XFF
+                      67     ;Delay function
 
-0090 20B3F5           68                     JB              P3.3,STOP
+0094 7F03             68     DELAY:  MOV     R7,#3
 
-0093 80D9             69                     SJMP    TEST1
+0096 7EC8             69     DEL1:   MOV             R6,#200
 
-                      70     
+0098 7DF8             70     DEL2:   MOV             R5,#248
 
-                      71     ;Binkly and contain operation of pasuing
+009A DDFE             71                     DJNZ    R5,$
 
-0095 20B2FD           72     WAIT2:  JB              P3.2,WAIT2
+009C DEFA             72                     DJNZ    R6,DEL2
 
-0098 20B2FA           73     TEST2:  JB              P3.2,WAIT2
+009E DFF6             73                     DJNZ    R7,DEL1
 
-009B 93               74     AGAIN2: MOVC    A,@A+DPTR
+00A0 22               74                     RET
 
-009C F590             75     PASUE:  MOV     P1,A                    ;PASUE operator
-
-009E 20B2FB           76                     JB              P3.2,PASUE
-
-00A1 1200B1           77                     LCALL   DELAY
-
-00A4 E5F0             78                     MOV             A,B
-
-00A6 05F0             79                     INC             B
-
-00A8 B40704           80                     CJNE    A,#0X07,NEXT2
-
-00AB 75F000           81                     MOV             B,#0X00         ;rest accumator A to zero
-
-00AE 22               82                     RET
-
-00AF 80EA             83     NEXT2:  SJMP    AGAIN2
-
-                      84     
-
-                      85     ;Delay function
-
-00B1 7F03             86     DELAY:  MOV     R7,#3
-
-00B3 7EC8             87     DEL1:   MOV             R6,#200
-
-00B5 7DF8             88     DEL2:   MOV             R5,#248
-
-00B7 DDFE             89                     DJNZ    R5,$
-
-00B9 DEFA             90                     DJNZ    R6,DEL2
-
-00BB DFF6             91                     DJNZ    R7,DEL1
-
-00BD 22               92                     RET
-
-                      93                     
-
-00BE FEFDFBF7         94     LED_TB: DB              0XFE,0XFD,0XFB,0XF7,0XEF,0XDF,0XBF,0X7F
-
-00C2 EFDFBF7F                
-                      95                     END
+                      75                     END
 
                                      
 
-A51 MACRO ASSEMBLER  LAB2                                                                 04/12/2018 11:34:51 PAGE     3
+A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -213,40 +171,31 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-AGAIN1 . . . . . .  C ADDR   0071H   A   
-AGAIN2 . . . . . .  C ADDR   009BH   A   
-B. . . . . . . . .  D ADDR   00F0H   A   
-DEL1 . . . . . . .  C ADDR   00B3H   A   
-DEL2 . . . . . . .  C ADDR   00B5H   A   
-DELAY. . . . . . .  C ADDR   00B1H   A   
+BLINK. . . . . . .  C ADDR   0067H   A   
+DEL1 . . . . . . .  C ADDR   0096H   A   
+DEL2 . . . . . . .  C ADDR   0098H   A   
+DELAY. . . . . . .  C ADDR   0094H   A   
 EA . . . . . . . .  B ADDR   00A8H.7 A   
 EX0. . . . . . . .  B ADDR   00A8H.0 A   
 EX1. . . . . . . .  B ADDR   00A8H.2 A   
-INIT . . . . . . .  C ADDR   0040H   A   
-INT0_CALL. . . . .  C ADDR   0038H   A   
+INIT . . . . . . .  C ADDR   003FH   A   
+INT0_CALL. . . . .  C ADDR   0039H   A   
 INT1_CALL. . . . .  C ADDR   003CH   A   
-INT_OPER . . . . .  C ADDR   0053H   A   
+INT_OPER . . . . .  C ADDR   004FH   A   
 IT0. . . . . . . .  B ADDR   0088H.0 A   
 IT1. . . . . . . .  B ADDR   0088H.2 A   
-LED_TB . . . . . .  C ADDR   00BEH   A   
 MAIN . . . . . . .  C ADDR   0030H   A   
-NEXT1. . . . . . .  C ADDR   0086H   A   
-NEXT2. . . . . . .  C ADDR   00AFH   A   
-NVIC . . . . . . .  C ADDR   0060H   A   
+NEXT . . . . . . .  C ADDR   007DH   A   
+NVIC . . . . . . .  C ADDR   005CH   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
-P3 . . . . . . . .  D ADDR   00B0H   A   
-PASUE. . . . . . .  C ADDR   009CH   A   
+PAUSE. . . . . . .  C ADDR   008AH   A   
 PS . . . . . . . .  B ADDR   00B8H.4 A   
 PT0. . . . . . . .  B ADDR   00B8H.1 A   
 PT1. . . . . . . .  B ADDR   00B8H.3 A   
 PX0. . . . . . . .  B ADDR   00B8H.0 A   
 PX1. . . . . . . .  B ADDR   00B8H.2 A   
 SP . . . . . . . .  D ADDR   0081H   A   
-STOP . . . . . . .  C ADDR   0088H   A   
-TEST1. . . . . . .  C ADDR   006EH   A   
-TEST2. . . . . . .  C ADDR   0098H   A   
-WAIT1. . . . . . .  C ADDR   006BH   A   
-WAIT2. . . . . . .  C ADDR   0095H   A   
+STOP . . . . . . .  C ADDR   007FH   A   
 
 
 REGISTER BANK(S) USED: 0 
