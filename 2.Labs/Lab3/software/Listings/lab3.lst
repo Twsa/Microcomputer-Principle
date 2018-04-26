@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 20:52:55 PAGE     1
+A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 21:47:45 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -121,7 +121,7 @@ LOC  OBJ            LINE     SOURCE
 
 0062 753264           56                     MOV             T0MUL_TMP,#TIME
 
-A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 20:52:55 PAGE     2
+A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 21:47:45 PAGE     2
 
 0065 7400             57                     MOV             A,#00H                  
 
@@ -241,7 +241,7 @@ LOC  OBJ            LINE     SOURCE
 
                      115                     END
 
-A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 20:52:55 PAGE     3
+A51 MACRO ASSEMBLER  LAB3                                                                 04/23/2018 21:47:45 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------

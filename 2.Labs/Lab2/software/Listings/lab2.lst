@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     1
+A51 MACRO ASSEMBLER  LAB2                                                                 04/25/2018 18:31:42 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -121,7 +121,7 @@ LOC  OBJ            LINE     SOURCE
 
 007A 7530FE           56                     MOV             30H,#0XFE       
 
-A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     2
+A51 MACRO ASSEMBLER  LAB2                                                                 04/25/2018 18:31:42 PAGE     2
 
 007D 80E8             57     NEXT:   SJMP    BLINK
 
@@ -163,7 +163,7 @@ LOC  OBJ            LINE     SOURCE
 
                                      
 
-A51 MACRO ASSEMBLER  LAB2                                                                 04/23/2018 19:34:04 PAGE     3
+A51 MACRO ASSEMBLER  LAB2                                                                 04/25/2018 18:31:42 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------

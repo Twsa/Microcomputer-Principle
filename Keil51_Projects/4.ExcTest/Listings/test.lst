@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     1
+A51 MACRO ASSEMBLER  TEST                                                                 04/25/2018 19:10:40 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -39,9 +39,9 @@ LOC  OBJ            LINE     SOURCE
 
                       15             ;ORG            0030H
 
-000B                  16             ORG             000BH
+                      16             ;ORG            000BH
 
-000B 020038           17             LJMP    INT0_CALL
+                      17             ;LJMP   INT0_CALL
 
                       18             ;ORG            001BH
 
@@ -51,95 +51,17 @@ LOC  OBJ            LINE     SOURCE
 
                       21                     
 
-0030                  22     MAIN:   
+0030 78FF             22     MAIN:   MOV             R0,#0XFF
 
-0030 120041           23                     LCALL   INIT                    ;≥ı ºªØ≤Ÿ◊˜
+0032 759055           23                     MOV             P1,#0X55
 
-0033 120050           24                     LCALL   INT_OPER                ;÷–∂œµƒ…Ë÷√µƒœ‡πÿ≤Ÿ◊˜
+0035 7477             24                     MOV             A,#0X77
 
-0036 80FE             25                     SJMP    $                               ;µ»¥÷–∂œ
+0037 F2               25                     MOVX    @R0,A
 
-                      26     
+                      26                     END
 
-0038 B2A0             27     INT0_CALL:      CPL             BUZ                     
-
-003A 758A18           28                             MOV             TL0,#T01        
-
-003D 758CFC           29                             MOV             TH0,#T02                
-
-0040 32               30                             RETI            
-
-                      31     
-
-                      32     ;Initialization
-
-0041 7590FF           33     INIT:   MOV             P1,#0FFH
-
-0044 75A0FF           34                     MOV             P2,#0FFH
-
-  00A0                35                     BUZ             EQU     P2.0
-
-  0090                36                     LED             EQU     P1.0
-
-  0091                37                     SW1             EQU     P1.1
-
-  0018                38                     T01             EQU     18H
-
-  00FC                39                     T02             EQU     0FCH
-
-0047 7400             40                     MOV             A,#00H  
-
-0049 75F000           41                     MOV             B,#00H
-
-004C 7581EF           42                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
-
-004F 22               43                     RET
-
-                      44     ;Interrupt operation control
-
-0050                  45     INT_OPER:       
-
-0050 758901           46                             MOV             TMOD,#01H       ;T0Œ™∑Ω Ω1 ∂® ±∆˜
-
-0053 758A18           47                             MOV             TL0,#T01        
-
-0056 758CFC           48                             MOV             TH0,#T02
-
-                      49                             
-
-0059 D2A9             50                             SETB    ET0                     ;‘ –ÌT0÷–∂œ     
-
-005B C28D             51                             CLR             TF0                     ;«Â0±Í÷æŒªTF0
-
-005D 1164             52                             ACALL   NVIC            ;…Ë÷√÷–∂œ”≈œ»º∂
-
-005F D2AF             53                             SETB    EA                      ;CPUø™÷–∂œ
-
-0061 D28C             54                             SETB    TR0     
-
-0063 22               55                             RET
-
-                      56                             
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     2
-
-                      57     ;Set the priority of interrupt  
-
-0064 C2B8             58     NVIC:           CLR             PX0     
-
-0066 C2B9             59                             CLR             PT0
-
-0068 C2BA             60                             CLR             PX1                             
-
-006A C2BB             61                             CLR             PT1
-
-006C C2BC             62                             CLR             PS
-
-006E 22               63                             RET                     
-
-                      64                             END
-
-A51 MACRO ASSEMBLER  TEST                                                                 04/20/2018 14:48:22 PAGE     3
+A51 MACRO ASSEMBLER  TEST                                                                 04/25/2018 19:10:40 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -147,32 +69,8 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-B. . . . . . . . .  D ADDR   00F0H   A   
-BUZ. . . . . . . .  B ADDR   00A0H.0 A   
-EA . . . . . . . .  B ADDR   00A8H.7 A   
-ET0. . . . . . . .  B ADDR   00A8H.1 A   
-INIT . . . . . . .  C ADDR   0041H   A   
-INT0_CALL. . . . .  C ADDR   0038H   A   
-INT_OPER . . . . .  C ADDR   0050H   A   
-LED. . . . . . . .  B ADDR   0090H.0 A   
 MAIN . . . . . . .  C ADDR   0030H   A   
-NVIC . . . . . . .  C ADDR   0064H   A   
 P1 . . . . . . . .  D ADDR   0090H   A   
-P2 . . . . . . . .  D ADDR   00A0H   A   
-PS . . . . . . . .  B ADDR   00B8H.4 A   
-PT0. . . . . . . .  B ADDR   00B8H.1 A   
-PT1. . . . . . . .  B ADDR   00B8H.3 A   
-PX0. . . . . . . .  B ADDR   00B8H.0 A   
-PX1. . . . . . . .  B ADDR   00B8H.2 A   
-SP . . . . . . . .  D ADDR   0081H   A   
-SW1. . . . . . . .  B ADDR   0090H.1 A   
-T01. . . . . . . .  N NUMB   0018H   A   
-T02. . . . . . . .  N NUMB   00FCH   A   
-TF0. . . . . . . .  B ADDR   0088H.5 A   
-TH0. . . . . . . .  D ADDR   008CH   A   
-TL0. . . . . . . .  D ADDR   008AH   A   
-TMOD . . . . . . .  D ADDR   0089H   A   
-TR0. . . . . . . .  B ADDR   0088H.4 A   
 
 
 REGISTER BANK(S) USED: 0 

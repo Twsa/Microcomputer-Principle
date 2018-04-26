@@ -1,0 +1,158 @@
+A51 MACRO ASSEMBLER  AT89C52RC_IT                                                         04/26/2018 17:36:22 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\at89c52rc_it.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\at89c52rc_it.ASM SET(SMALL) DEBUG PRINT(.\Listings\at89c52rc_it.ls
+                      t) OBJECT(.\Objects\at89c52rc_it.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;Initialization
+
+0000                   2     INIT:   
+
+  0090                 3                     LEDS    EQU     P1                      
+
+  0064                 4                     TIME    EQU     100D            
+
+  00F0                 5                     T01             EQU     0F0H    
+
+  00D8                 6                     T02             EQU 0D8H                ;º∆ ÷µ÷µµƒ∏ﬂŒª  ∂® ±10MS
+
+  0030                 7                     LEDFG   EQU     30H                     ;LEDµƒ±Í÷æ
+
+  0031                 8                     T0_MUL  EQU     31H                     ;Timer º∆ ÷µµƒ±∂ 
+
+  0032                 9                     T0MUL_TMP       EQU     32H             ;Timer º∆ ÷µµƒ±∂ ¡Ÿ ± æ›
+
+                      10                     ;INT0FG EQU     20H                     ;Õ‚≤ø÷–∂œ0      flag
+
+                      11                     ;INT1FG EQU     21H                     ;Õ‚≤ø÷–∂œ1      flag
+
+  0022                12                     PT0FG   EQU     22H                     ;∂® ±∆˜0÷–∂œ    flag
+
+                      13                     ;               CS1             EQU             
+
+                      14     ;               CS2             EQU             
+
+  00B7                15                     OE              EQU             P3.7
+
+  00B6                16                     WE              EQU             P3.6
+
+                      17                             
+
+0000 7590FF           18                     MOV             LEDS,#0FFH
+
+0003 7530FE           19                     MOV             LEDFG,#0XFE
+
+                      20                     ;CLR            INT0FG                          
+
+                      21                     ;CLR            INT1FG  
+
+0006 C222             22                     CLR             PT0FG
+
+0008 753164           23                     MOV             T0_MUL,#TIME
+
+000B 753264           24                     MOV             T0MUL_TMP,#TIME
+
+000E 7400             25                     MOV             A,#00H                  
+
+0010 7581EF           26                     MOV             SP,#0EFH                ;…Ë÷√∂—’ª÷∏’Î
+
+0013 22               27                     RET
+
+                      28             
+
+                      29     ;Interrupt operation control
+
+0014 758901           30     INT_OPER:       MOV             TMOD,#01H       ;T0Œ™∑Ω Ω1 ∂® ±∆˜
+
+0017 758AF0           31                             MOV             TL0,#T01        
+
+001A 758CD8           32                             MOV             TH0,#T02        
+
+                      33                             ;SETB   IT0                     ;…Ë÷√Õ‚≤ø÷–∂œ0Œ™œ¬Ωµ—ÿ¥•∑¢
+
+                      34                             ;SETB   IT1                     ;…Ë÷√Õ‚≤ø÷–∂œ1Œ™œ¬Ωµ—ÿ¥•∑¢
+
+                      35                             ;SETB   EX0                     ;Õ‚≤ø÷–∂œ0ø™÷–∂œ
+
+                      36                             ;SETB   EX1                     ;Õ‚≤ø÷–∂œ1ø™÷–∂œ        
+
+001D D2A9             37                             SETB    ET0                     ;‘ –ÌT0÷–∂œ     
+
+                      38                             ;SETB   ET1                     ;‘ –ÌT1÷–∂œ
+
+001F C28D             39                             CLR             TF0                     ;«Â0±Í÷æŒªTF0
+
+                      40                             ;CLR            TF1                     ;«Â0±Í÷æŒªTF1
+
+0021 1128             41                             ACALL   NVIC            ;…Ë÷√÷–∂œ”≈œ»º∂
+
+0023 D2AF             42                             SETB    EA                      ;CPUø™÷–∂œ
+
+0025 D28C             43                             SETB    TR0     
+
+                      44                             ;SETB   TR1
+
+0027 22               45                             RET     
+
+                      46     ;Set the priority of interrupt  
+
+0028 C2B8             47     NVIC:           CLR             PX0     
+
+002A C2B9             48                             CLR             PT0
+
+002C C2BA             49                             CLR             PX1                             
+
+002E C2BB             50                             CLR             PT1
+
+0030 C2BC             51                             CLR             PS
+
+0032 22               52                             RET
+
+                      53                             END
+
+A51 MACRO ASSEMBLER  AT89C52RC_IT                                                         04/26/2018 17:36:22 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+INIT . . . . . . .  C ADDR   0000H   A   
+INT_OPER . . . . .  C ADDR   0014H   A   
+LEDFG. . . . . . .  N NUMB   0030H   A   
+LEDS . . . . . . .  D ADDR   0090H   A   
+NVIC . . . . . . .  C ADDR   0028H   A   
+OE . . . . . . . .  B ADDR   00B0H.7 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PS . . . . . . . .  B ADDR   00B8H.4 A   
+PT0. . . . . . . .  B ADDR   00B8H.1 A   
+PT0FG. . . . . . .  N NUMB   0022H   A   
+PT1. . . . . . . .  B ADDR   00B8H.3 A   
+PX0. . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . .  B ADDR   00B8H.2 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+T01. . . . . . . .  N NUMB   00F0H   A   
+T02. . . . . . . .  N NUMB   00D8H   A   
+T0MUL_TMP. . . . .  N NUMB   0032H   A   
+T0_MUL . . . . . .  N NUMB   0031H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TIME . . . . . . .  N NUMB   0064H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WE . . . . . . . .  B ADDR   00B0H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

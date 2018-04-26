@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        04/20/2018  14:48:22  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/25/2018  19:10:40  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -19,7 +19,7 @@ LINK MAP OF MODULE:  .\Objects\Hex (TEST)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     006FH     ABSOLUTE     
+            CODE    0000H     0038H     ABSOLUTE     
 
 
 
@@ -29,66 +29,14 @@ SYMBOL TABLE OF MODULE:  .\Objects\Hex (TEST)
   ----------------------------------
 
   -------         MODULE        TEST
-  D:00F0H         SYMBOL        B
-  B:00A0H.0       SYMBOL        BUZ
-  B:00A8H.7       SYMBOL        EA
-  B:00A8H.1       SYMBOL        ET0
-  C:0041H         SYMBOL        INIT
-  C:0038H         SYMBOL        INT0_CALL
-  C:0050H         SYMBOL        INT_OPER
-  B:0090H.0       SYMBOL        LED
   C:0030H         SYMBOL        MAIN
-  C:0064H         SYMBOL        NVIC
   D:0090H         SYMBOL        P1
-  D:00A0H         SYMBOL        P2
-  B:00B8H.4       SYMBOL        PS
-  B:00B8H.1       SYMBOL        PT0
-  B:00B8H.3       SYMBOL        PT1
-  B:00B8H.0       SYMBOL        PX0
-  B:00B8H.2       SYMBOL        PX1
-  D:0081H         SYMBOL        SP
-  B:0090H.1       SYMBOL        SW1
-  N:0018H         SYMBOL        T01
-  N:00FCH         SYMBOL        T02
-  B:0088H.5       SYMBOL        TF0
-  D:008CH         SYMBOL        TH0
-  D:008AH         SYMBOL        TL0
-  D:0089H         SYMBOL        TMOD
-  B:0088H.4       SYMBOL        TR0
   C:0000H         LINE#         10
-  C:000BH         LINE#         17
-  C:0030H         LINE#         23
-  C:0033H         LINE#         24
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2018  14:48:22  PAGE 2
-
-
-  C:0036H         LINE#         25
-  C:0038H         LINE#         27
-  C:003AH         LINE#         28
-  C:003DH         LINE#         29
-  C:0040H         LINE#         30
-  C:0041H         LINE#         33
-  C:0044H         LINE#         34
-  C:0047H         LINE#         40
-  C:0049H         LINE#         41
-  C:004CH         LINE#         42
-  C:004FH         LINE#         43
-  C:0050H         LINE#         46
-  C:0053H         LINE#         47
-  C:0056H         LINE#         48
-  C:0059H         LINE#         50
-  C:005BH         LINE#         51
-  C:005DH         LINE#         52
-  C:005FH         LINE#         53
-  C:0061H         LINE#         54
-  C:0063H         LINE#         55
-  C:0064H         LINE#         58
-  C:0066H         LINE#         59
-  C:0068H         LINE#         60
-  C:006AH         LINE#         61
-  C:006CH         LINE#         62
-  C:006EH         LINE#         63
+  C:0030H         LINE#         22
+  C:0032H         LINE#         23
+  C:0035H         LINE#         24
+  C:0037H         LINE#         25
   -------         ENDMOD        TEST
 
-Program Size: data=8.0 xdata=0 code=111
+Program Size: data=8.0 xdata=0 code=56
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
