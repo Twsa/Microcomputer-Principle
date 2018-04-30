@@ -1,0 +1,59 @@
+A51 MACRO ASSEMBLER  LAB4_TEST                                                            04/27/2018 09:10:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\lab4_test.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\lab4_test.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab4_test.lst) OBJ
+                      ECT(.\Objects\lab4_test.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG             0000H
+
+0000 120008            2     MAIN:   LCALL   INIT
+
+0003 120010            3                     LCALL   READING
+
+0006 80FE              4                     SJMP    $
+
+                       5     
+
+0008 900000            6     INIT:   MOV             DPTR,#0000H
+
+000B 7F08              7                     MOV             R7,#0X08
+
+000D 7400              8                     MOV             A,#00H
+
+000F 22                9                     RET
+
+0010 F0               10     READING:        MOVX    @DPTR,A
+
+0011 A3               11                             INC             DPTR
+
+0012 1F               12                             DEC             R7
+
+0013 DFFB             13                             DJNZ    R7,READING
+
+0015 22               14                             RET
+
+                      15                             
+
+                      16                     END
+
+A51 MACRO ASSEMBLER  LAB4_TEST                                                            04/27/2018 09:10:59 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+INIT . . . . . . .  C ADDR   0008H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+READING. . . . . .  C ADDR   0010H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
