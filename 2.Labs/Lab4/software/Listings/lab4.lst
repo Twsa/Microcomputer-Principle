@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LAB4                                                                 04/30/2018 20:40:06 PAGE     1
+A51 MACRO ASSEMBLER  LAB4                                                                 05/02/2018 11:41:27 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -119,7 +119,7 @@ LOC  OBJ            LINE     SOURCE
 0054 D0E0             54                             POP             ACC                                             ;½«
                              PCÖµÌáÇ°³öÕ»
 
-A51 MACRO ASSEMBLER  LAB4                                                                 04/30/2018 20:40:06 PAGE     2
+A51 MACRO ASSEMBLER  LAB4                                                                 05/02/2018 11:41:27 PAGE     2
 
 0056 D0E0             55                             POP             ACC
 
@@ -251,7 +251,7 @@ LOC  OBJ            LINE     SOURCE
 00C8 E0              118                             MOVX    A,@DPTR
 
 00C9 2411            119                             ADD             A,#0X11                         ;½«¶Áµ½µÄÊ¾Ý¼ÓÉÏ0X1
-A51 MACRO ASSEMBLER  LAB4                                                                 04/30/2018 20:40:06 PAGE     3
+A51 MACRO ASSEMBLER  LAB4                                                                 05/02/2018 11:41:27 PAGE     3
 
                              1
 
@@ -267,7 +267,7 @@ LOC  OBJ            LINE     SOURCE
 
                      125                             END
 
-A51 MACRO ASSEMBLER  LAB4                                                                 04/30/2018 20:40:06 PAGE     4
+A51 MACRO ASSEMBLER  LAB4                                                                 05/02/2018 11:41:27 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------

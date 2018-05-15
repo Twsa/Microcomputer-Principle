@@ -1,0 +1,150 @@
+A51 MACRO ASSEMBLER  LAB5                                                                 05/15/2018 17:13:36 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN .\Objects\lab5.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE User\lab5.ASM SET(SMALL) DEBUG PRINT(.\Listings\lab5.lst) OBJECT(.\Obje
+                      cts\lab5.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; FileName              :               lab5.ASM        
+
+                       2     ; Author                :               Twsa Liu
+
+                       3     ; Date                  :               2018-05-09
+
+                       4     ; Description   :               This is a lab of AT89C52RC.
+
+                       5     ;                                               The lab achieve function extending I/O
+
+                       6     
+
+                       7     ;基础部分主程序
+
+0000                   8                     ORG             0000H
+
+  3FFC                 9                     A_8255  EQU             3FFCH
+
+  3FFD                10                     B_8255  EQU             3FFDH
+
+  3FFE                11                     C_8255  EQU             3FFEH
+
+  3FFF                12                     CN_8255 EQU             3FFFH
+
+  0091                13                     CN_WORD EQU             91H     
+
+0000 110A             14     MAIN:   ACALL   INIT_8255
+
+0002 111E             15                     ACALL   WAIT_START
+
+0004 113A             16     LED:    ACALL   LED_CONTROL
+
+0006 1128             17                     ACALL   WAIT_STOP
+
+0008 80FE             18                     SJMP    $
+
+                      19     ;Init the io extension  8255 block
+
+                      20     ;A 输入 B输出 C口高4位输出 C口低四位输入
+
+000A 7491             21     INIT_8255:      MOV             A,#CN_WORD                      ;方式控制字送入A
+
+000C 903FFF           22                             MOV             DPTR,#CN_8255           ;控制寄存器地址
+
+000F F0               23                             MOVX    @DPTR,A                 ;8255A初始化    
+
+                      24                             
+
+0010 903FFD           25                             MOV             DPTR,#B_8255            ;送端口B的地址
+
+0013 7400             26                             MOV             A,#0X00
+
+0015 F0               27                             MOVX    @DPTR,A                 ;熄灭LEDS       
+
+0016 22               28                             RET
+
+                      29                             
+
+0017 903FFD           30     TEST_WRITE:             MOV             DPTR,#B_8255    ;送端口B的地址
+
+001A 74CC             31                                     MOV             A,#0XCC
+
+001C F0               32                                     MOVX            @DPTR,A         ;写端口B        
+
+001D 22               33                                     RET
+
+                      34                                     
+
+001E 903FFE           35     WAIT_START:             MOV             DPTR,#C_8255            ;送端口C的地址
+
+0021 E0               36                                     MOVX    A,@DPTR                         ;读C低四位端口
+
+0022 5401             37                                     ANL             A,#0X01
+
+0024 B401F7           38                                     CJNE    A,#0X01,WAIT_START
+
+0027 22               39                                     RET
+
+                      40                                     
+
+0028 903FFE           41     WAIT_STOP:              MOV             DPTR,#C_8255            ;送端口C的地址
+
+002B E0               42                                     MOVX    A,@DPTR                         ;读C低四位端口
+
+002C 5402             43                                     ANL             A,#0X02
+
+002E B40202           44                                     CJNE    A,#0X02,STOP
+
+0031 80D1             45                                     SJMP    LED
+
+0033 903FFD           46     STOP:                   MOV             DPTR,#B_8255            ;送端口B的地址
+
+0036 7400             47                                     MOV             A,#0X00
+
+0038 F0               48                                     MOVX    @DPTR,A                         ;熄灭LEDS          
+                                                          
+
+0039 22               49                                     RET
+
+                      50     ;读A控制B
+
+003A 903FFC           51     LED_CONTROL:    MOV             DPTR,#A_8255            ;送端口A的地址
+
+003D E0               52                                     MOVX    A,@DPTR                         ;读A端口
+
+003E 903FFD           53                                     MOV             DPTR,#B_8255            ;送端口B的地址
+
+0041 F0               54                                     MOVX    @DPTR,A                         ;写端口B        
+
+0042 22               55                                     RET
+
+                      56                                     END
+
+A51 MACRO ASSEMBLER  LAB5                                                                 05/15/2018 17:13:36 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A_8255 . . . . . .  N NUMB   3FFCH   A   
+B_8255 . . . . . .  N NUMB   3FFDH   A   
+CN_8255. . . . . .  N NUMB   3FFFH   A   
+CN_WORD. . . . . .  N NUMB   0091H   A   
+C_8255 . . . . . .  N NUMB   3FFEH   A   
+INIT_8255. . . . .  C ADDR   000AH   A   
+LED. . . . . . . .  C ADDR   0004H   A   
+LED_CONTROL. . . .  C ADDR   003AH   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+STOP . . . . . . .  C ADDR   0033H   A   
+TEST_WRITE . . . .  C ADDR   0017H   A   
+WAIT_START . . . .  C ADDR   001EH   A   
+WAIT_STOP. . . . .  C ADDR   0028H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
